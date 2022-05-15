@@ -1,0 +1,129 @@
+{
+	"info": {
+		"_postman_id": "07de435c-f73e-462e-9a43-132d01c8bbe2",
+		"name": "Express Kata",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "APP Get ",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://secret-wildwood-80895.herokuapp.com/posts",
+					"protocol": "https",
+					"host": [
+						"secret-wildwood-80895",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "APP Post ",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Kyle\",\r\n    \"content\" : \"reputation is what others think of you character is what you are\",\r\n    \"likes\": 15,\r\n    \"img\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://secret-wildwood-80895.herokuapp.com/posts",
+					"protocol": "https",
+					"host": [
+						"secret-wildwood-80895",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "APP delete all ",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://secret-wildwood-80895.herokuapp.com/posts",
+					"protocol": "https",
+					"host": [
+						"secret-wildwood-80895",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "APP Patch",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Kyle\",\r\n    \"content\" : \"reputation is what others think of you \",\r\n    \"likes\": 17,\r\n    \"img\": \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://secret-wildwood-80895.herokuapp.com/posts/6269301b2d70e68e6a206ab5",
+					"protocol": "https",
+					"host": [
+						"secret-wildwood-80895",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"posts",
+						"6269301b2d70e68e6a206ab5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "APP delete one ",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://secret-wildwood-80895.herokuapp.com/posts/6269301b2d70e68e6a206ab5",
+					"protocol": "https",
+					"host": [
+						"secret-wildwood-80895",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"posts",
+						"6269301b2d70e68e6a206ab5"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
