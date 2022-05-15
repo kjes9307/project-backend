@@ -1,25 +1,29 @@
 // 連接資料庫
 const mongoose = require('mongoose');
     // 建立collection 
-    const roomSchema = new mongoose.Schema( {
+    const PostSchema = new mongoose.Schema( {
           name: {
             type: String,
-            required: [true, '貼文姓名未填寫']
+            required: [true, '貼文姓名未填寫'],
+            cast: false
           },
           tags: [
             {
               type: String,
-              required: [true, '貼文標籤 tags 未填寫']
+              required: [true, '貼文標籤 tags 未填寫'],
+              cast: false
             }
           ],
           type: {
             type: String,
             enum:['group','person'],
-            required: [true, '貼文類型 type 未填寫']
+            required: [true, '貼文類型 type 未填寫'],
+            cast: false
           },
           image: {
             type: String,
-            default: ""
+            default: "",
+            cast: false
           },
           createAt: {
             type: Date,
@@ -29,14 +33,17 @@ const mongoose = require('mongoose');
           content: {
             type: String,
             required: [true, 'Content 未填寫'],
+            cast: false
           },
           likes: {
             type: Number,
-            default: 0
+            default: 0,
+            cast: false
           },
           comments:{
             type: Number,
-            default: 0
+            default: 0,
+            cast: false
           }
     },{
         versionKey: false,
@@ -44,6 +51,6 @@ const mongoose = require('mongoose');
     }
     );
     // 預設加上"s"
-    const Post = mongoose.model('Post', roomSchema);
+    const Post = mongoose.model('Post', PostSchema);
     
     module.exports = Post;

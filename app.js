@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('./connect')
 var postRouter = require('./routes/posts');
+const {errorResponse, appError} = require('./util/tool')
 const { default: axios } = require('axios');
 var app = express();
 
@@ -20,16 +21,13 @@ require('./util/exceptionHandle')
 app.use('/posts', postRouter);
 
 app.use((req,res,next)=>{
-    res.status(404).json({
-        status:"false",
-        message:"您的路由不存在"
-    })
+    console.log("@404路由");
+    appError(404,"URL Not Found",next,res)
 })
 
 app.use((err,req,res,next)=>{
-    console.log(err.name);
-    res.status(500).json({
-        "err": err.name
-    })
+    const {name,statusCode}=err;
+    console.log(name,statusCode)
+    errorResponse(err,res);
 })
 module.exports = app;

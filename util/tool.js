@@ -1,3 +1,5 @@
+const res = require("express/lib/response")
+
 const defineStatus = {
     200 : "success",
     404 : "error",
@@ -7,55 +9,76 @@ const defineStatus = {
 const responseHandler = (res,data,statusCode) => {
     if(data !== null) {
         res.status(statusCode).json({
-            "statu" : defineStatus[statusCode],
+            "status" : defineStatus[statusCode],
             "data" : data
         })
     }else{
         res.status(401).json({
-            "statu" : "id not match any result",
+            "status" : "id not match any result",
             "data" : []
         })
     }
 }
 
-const errorHandler = (res,msg,statusCode) => {
-        res.status(statusCode).json({
-            "statu" : defineStatus[statusCode],
-            "msg" : msg,
-            "data" : []
-        })
-}
 const checkInput = (body) => {
+    let err = new Error()
     if(Object.keys(body).length === 0){  
-        throw "Input Error"
+        err.name = "Clinet Input Error"
+        throw err;
     }else{
         let element = ["name","content","tags","type"];
         for(let i = 0 ; i< element.length;i++){
             let key = element[i]
             if(body[key] === "" || !body[key] === true){
                 console.log(`${key} is required`)
-                throw `${key} is required`
+                err.name = `${key} is required`
+                throw err;
             }
         }
     }
 }
 
 // async error handle
-const asyncErrorHandler = async(func) => {
-    return (req,res,next)=>{
+const asyncErrorHandler = (func) => {
+    return async(req,res,next)=>{
         try{
-            func(req,res,next)
-        }catch(error){
-            console.log(error);
+            await func(req,res,next)
+        }catch(err){
+            console.log("@",err)
+            next(appError(404,msg = err.name,next,res))
         }
     }
 }
 
-const appError = (httpStatus,errMessage,next)=>{
+const appError = (httpStatus,errMessage,next,res)=>{
     const error = new Error(errMessage);
     error.statusCode = httpStatus;
-    error.isOperational = true;
-    next(error);
+    error.isDefineError = true;
+    next(error,res);
 }
 
-module.exports = {asyncErrorHandler,responseHandler,errorHandler,checkInput};
+const errorResponse = (error,res) => {
+    let {isDefineError,statusCode,message,name} = error;
+    statusCode = statusCode || 500;
+    if(isDefineError){
+        res.status(statusCode).json({
+            status : statusCode,
+            msg : message ,
+            name
+        })
+    }else{
+        res.json({
+            "msg":"undefined error, please contact admin"
+        })
+    }
+}
+
+const errorResponseDEV = (error) => {
+    res.json({
+        stack : error.stack,
+        msg: error.message,
+        name: error.name
+    })
+}
+
+module.exports = {asyncErrorHandler,responseHandler,errorResponse,errorResponseDEV,checkInput,appError};
