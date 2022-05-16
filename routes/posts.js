@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 const {asyncErrorHandler, appError} = require('../util/tool.js')
-const Post = require("../model/postsModel.js")
 const postAPI= require("../controller/postMethod.js")
 
 /* GET home page. */
@@ -33,7 +32,6 @@ router.delete('/',async function(req, res, next) {
   try {
     await postAPI.deleteAll({req,res})
   }catch(err){
-    console.log(err)
     next(appError(404,err,next,res));
   }
 });

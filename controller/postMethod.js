@@ -1,9 +1,13 @@
 const Post = require("../model/postsModel.js")
+const User = require("../model/userModel.js")
+
 const {responseHandler,errorHandler,checkInput} = require("../util/tool")
 let postAPI = {
     findPost : async ({req,res})=>{
-            const data = await Post.find().populate({path:'user',select:'name photo'});
-            responseHandler(res,data,200);
+        const timeSort = req.query.timeSort == "asc" ? "createAt":"-createAt"
+        const key = req.query.key !== undefined ? {"content": new RegExp(req.query.q)} : {};    
+        const data = await Post.find(key).populate({path:'user',select:'name photo'}).sort(timeSort);
+        responseHandler(res,data,200);
     },
     createPost : async ({req,res})=>{
             let addPost = req.body

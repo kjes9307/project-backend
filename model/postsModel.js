@@ -32,8 +32,7 @@ const mongoose = require('mongoose');
           },
           createAt: {
             type: Date,
-            default: Date.now,
-            select: false
+            default: Date.now          
           },
           content: {
             type: String,

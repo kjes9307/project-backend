@@ -1,4 +1,3 @@
-const res = require("express/lib/response")
 
 const defineStatus = {
     200 : "success",
@@ -53,7 +52,7 @@ const asyncErrorHandler = (func) => {
 }
 
 const appError = (httpStatus,errorInfo,next,res)=>{
-    const error = new Error(errorInfo);
+    const error = new Error();
     error.name = errorInfo.name;
     error.message = errorInfo.message;
     error.statusCode = httpStatus;

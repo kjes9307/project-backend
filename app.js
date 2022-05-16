@@ -3,10 +3,13 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-require('./connect')
-var postRouter = require('./routes/posts');
-const {errorResponse,appError,errorResponseDEV} = require('./util/tool')
 const { default: axios } = require('axios');
+const dotenv = require("dotenv");
+const {errorResponse,appError,errorResponseDEV} = require('./util/tool')
+require('./connect')
+dotenv.config({path :"./config.env"});
+var postRouter = require('./routes/posts');
+
 var app = express();
 
 app.use(cors())
@@ -27,7 +30,7 @@ app.use((req,res,next)=>{
 
 app.use((err,req,res,next)=>{
     const {name,statusCode}=err;
-    console.log("error handle",name,statusCode)
+    console.log("Error Reporter",name,statusCode)
     if(process.env.NODE_ENV==='dev'){
         return errorResponseDEV(err,res)
     }
