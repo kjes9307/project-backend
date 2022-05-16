@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('./connect')
 var postRouter = require('./routes/posts');
-const {errorResponse, appError} = require('./util/tool')
+const {errorResponse,appError,errorResponseDEV} = require('./util/tool')
 const { default: axios } = require('axios');
 var app = express();
 
@@ -27,7 +27,10 @@ app.use((req,res,next)=>{
 
 app.use((err,req,res,next)=>{
     const {name,statusCode}=err;
-    console.log(name,statusCode)
+    console.log("error handle",name,statusCode)
+    if(process.env.NODE_ENV==='dev'){
+        return errorResponseDEV(err,res)
+    }
     errorResponse(err,res);
 })
 module.exports = app;

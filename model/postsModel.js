@@ -7,6 +7,11 @@ const mongoose = require('mongoose');
             required: [true, '貼文姓名未填寫'],
             cast: false
           },
+          user:{
+            ref:"user",
+            type: mongoose.Schema.ObjectId,
+            required : [true,'user not exist']
+          },
           tags: [
             {
               type: String,

@@ -9,13 +9,15 @@ const defineStatus = {
 const responseHandler = (res,data,statusCode) => {
     if(data !== null) {
         res.status(statusCode).json({
-            "status" : defineStatus[statusCode],
-            "data" : data
+            status : statusCode,
+            data : data,
+            msg: defineStatus[statusCode]
         })
     }else{
         res.status(401).json({
-            "status" : "id not match any result",
-            "data" : []
+            status : statusCode,
+            data : [],
+            msg: defineStatus[statusCode]
         })
     }
 }
@@ -50,21 +52,22 @@ const asyncErrorHandler = (func) => {
     }
 }
 
-const appError = (httpStatus,errMessage,next,res)=>{
-    const error = new Error(errMessage);
+const appError = (httpStatus,errorInfo,next,res)=>{
+    const error = new Error(errorInfo);
+    error.name = errorInfo.name;
+    error.message = errorInfo.message;
     error.statusCode = httpStatus;
     error.isDefineError = true;
     next(error,res);
 }
 
 const errorResponse = (error,res) => {
-    let {isDefineError,statusCode,message,name} = error;
+    let {isDefineError,statusCode,name} = error;
     statusCode = statusCode || 500;
     if(isDefineError){
         res.status(statusCode).json({
             status : statusCode,
-            msg : message ,
-            name
+            msg : name
         })
     }else{
         res.json({
@@ -73,11 +76,14 @@ const errorResponse = (error,res) => {
     }
 }
 
-const errorResponseDEV = (error) => {
-    res.json({
-        stack : error.stack,
-        msg: error.message,
-        name: error.name
+const errorResponseDEV = (error,res) => {
+    let {isDefineError,statusCode,name,message,stack} = error;
+    statusCode = statusCode || 500;
+    res.status(statusCode).json({
+        stack,
+        msg: message,
+        name,
+        isDefineError
     })
 }
 
