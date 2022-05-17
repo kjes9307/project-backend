@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 
 const defineStatus = {
     200 : "success",
@@ -85,5 +86,27 @@ const errorResponseDEV = (error,res) => {
         isDefineError
     })
 }
+const tokenGenerator= (user,statusCode,res)=>{
+    // 產生 JWT token
+    const token = jwt.sign({id:user._id},process.env.JWT_SECRET,{
+      expiresIn: process.env.JWT_EXPIRES_DAY
+    });
+    user.password = undefined; // pw 不要丟到前台
+    res.status(statusCode).json({
+      status: 'success',
+      user:{
+        token,
+        name: user.name
+      }
+    });
+  }
 
-module.exports = {asyncErrorHandler,responseHandler,errorResponse,errorResponseDEV,checkInput,appError};
+module.exports = {
+    asyncErrorHandler,
+    responseHandler,
+    errorResponse,
+    errorResponseDEV,
+    checkInput,
+    appError,
+    tokenGenerator
+};
