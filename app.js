@@ -1,16 +1,15 @@
-var cors = require('cors')
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-const { default: axios } = require('axios');
+const cors = require('cors')
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const dotenv = require("dotenv");
 const {errorResponse,appError,errorResponseDEV} = require('./util/tool')
 require('./connect')
 dotenv.config({path :"./config.env"});
-var postRouter = require('./routes/posts');
-
-var app = express();
+const postRouter = require('./routes/posts');
+const userRouter = require('./routes/user');
+const app = express();
 
 app.use(cors())
 app.use(logger('dev'));
@@ -22,6 +21,7 @@ require('./util/exceptionHandle')
 
 // app.use('/', indexRouter);
 app.use('/posts', postRouter);
+app.use('/user', userRouter);
 
 app.use((req,res,next)=>{
     console.log("@404路由");
@@ -30,7 +30,7 @@ app.use((req,res,next)=>{
 
 app.use((err,req,res,next)=>{
     const {name,statusCode}=err;
-    console.log("Error Reporter",name,statusCode)
+    console.log("Error Manager",name,statusCode)
     if(process.env.NODE_ENV==='dev'){
         return errorResponseDEV(err,res)
     }

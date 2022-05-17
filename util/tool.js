@@ -3,7 +3,8 @@ const jwt = require('jsonwebtoken');
 const defineStatus = {
     200 : "success",
     404 : "error",
-    401 : "data not found"
+    401 : "Data not found",
+    400 : "Input Error"
 }
 // express status code 預設200
 const responseHandler = (res,data,statusCode) => {
@@ -14,7 +15,7 @@ const responseHandler = (res,data,statusCode) => {
             msg: defineStatus[statusCode]
         })
     }else{
-        res.status(401).json({
+        res.status(statusCode).json({
             status : statusCode,
             data : [],
             msg: defineStatus[statusCode]
@@ -54,7 +55,7 @@ const asyncErrorHandler = (func) => {
 
 const appError = (httpStatus,errorInfo,next,res)=>{
     const error = new Error();
-    error.name = errorInfo.name;
+    error.name = errorInfo.name || errorInfo;
     error.message = errorInfo.message;
     error.statusCode = httpStatus;
     error.isDefineError = true;
@@ -92,13 +93,11 @@ const tokenGenerator= (user,statusCode,res)=>{
       expiresIn: process.env.JWT_EXPIRES_DAY
     });
     user.password = undefined; // pw 不要丟到前台
-    res.status(statusCode).json({
-      status: 'success',
-      user:{
+    let resData = {
         token,
         name: user.name
-      }
-    });
+    }
+    responseHandler(res,resData,statusCode)
   }
 
 module.exports = {
