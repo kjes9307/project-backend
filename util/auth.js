@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const {asyncErrorHandler,appError} = require('./tool.js')
 const User = require('../models/usersModel');
-const isAuth = asyncErrorHandler(async (req, res, next) => {
+const isAuth = asyncErrorHandler(async ({req, res, next}) => {
     // 確認 token 是否存在
     let token;
     if (
