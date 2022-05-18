@@ -13,7 +13,7 @@ let postAPI = {
     createPost : async ({req,res,next})=>{
             let addPost = req.body
             let userInfo = req.user;
-            console.log(req.user)
+            addPost.name = userInfo.name; // for checkInput
             checkInput(addPost)
             let resData = await Post.create(
                 {

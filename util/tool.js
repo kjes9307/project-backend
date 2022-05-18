@@ -34,7 +34,7 @@ const checkInput = (body) => {
             let key = element[i]
             if(body[key] === "" || !body[key] === true){
                 console.log(`${key} is required`)
-                err.name = `${key} is required`
+                err.name = `${key} is required, Check Input Error`
                 throw err;
             }
         }
