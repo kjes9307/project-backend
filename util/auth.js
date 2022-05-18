@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const {asyncErrorHandler,appError} = require('./tool.js')
-const User = require('../models/usersModel');
-const isAuth = asyncErrorHandler(async ({req, res, next}) => {
+const User = require('../model/userModel');
+const isAuth = asyncErrorHandler(async (req, res, next) => {
     // 確認 token 是否存在
     let token;
     if (
@@ -10,7 +10,6 @@ const isAuth = asyncErrorHandler(async ({req, res, next}) => {
     ) {
       token = req.headers.authorization.split(' ')[1];
     }
-  
     if (!token) {
       return next(appError(401,'你尚未登入！',next));
     }
@@ -31,7 +30,4 @@ const isAuth = asyncErrorHandler(async ({req, res, next}) => {
     next();
   });
 
-
-module.exports = {
-    isAuth
-}
+  module.exports = isAuth

@@ -47,7 +47,7 @@ const asyncErrorHandler = (func) => {
         try{
             await func(req,res,next)
         }catch(err){
-            console.log("@",err)
+            console.log("@asyncErrorHandler",err)
             next(appError(404,msg = err.name,next,res))
         }
     }

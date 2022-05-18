@@ -1,15 +1,16 @@
 const Post = require("../model/postsModel.js")
 const User = require("../model/userModel.js")
 
-const {responseHandler,errorHandler,checkInput} = require("../util/tool")
+const {responseHandler,checkInput} = require("../util/tool")
+
 let postAPI = {
-    findPost : async ({req,res})=>{
+    findPost : async ({req,res,next})=>{
         const timeSort = req.query.timeSort == "asc" ? "createAt":"-createAt"
-        const key = req.query.key !== undefined ? {"content": new RegExp(req.query.q)} : {};    
+        const key = req.query.key !== undefined ? {"content": new RegExp(req.query.key)} : {};    
         const data = await Post.find(key).populate({path:'user',select:'name photo'}).sort(timeSort);
         responseHandler(res,data,200);
     },
-    createPost : async ({req,res})=>{
+    createPost : async ({req,res,next})=>{
             let addPost = req.body
             checkInput(addPost)
             let resData = await Post.create(
@@ -24,11 +25,11 @@ let postAPI = {
             )
             responseHandler(res,resData,200);
     },
-    deleteAll : async ({req,res})=>{
+    deleteAll : async ({req,res,next})=>{
         await Post.deleteMany();
         responseHandler(res,[],200);
     },
-    deleteByID : async ({req,res})=>{
+    deleteByID : async ({req,res,next})=>{
         let {id} = req.params;
         let data = await Post.findByIdAndDelete(id);
         if(data !== null){
@@ -39,7 +40,7 @@ let postAPI = {
             throw err;
         }
     },
-    editPost : async ({req,res})=>{
+    editPost : async ({req,res,next})=>{
             let {id} = req.params;
             let edit = req.body;
             checkInput(edit);
