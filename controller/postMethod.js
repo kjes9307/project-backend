@@ -12,15 +12,17 @@ let postAPI = {
     },
     createPost : async ({req,res,next})=>{
             let addPost = req.body
+            let userInfo = req.user;
+            console.log(req.user)
             checkInput(addPost)
             let resData = await Post.create(
                 {
-                    name: addPost.name,
+                    name: userInfo.name,
                     content: addPost.content,
                     likes: addPost.likes,
                     tags: addPost.tags,
                     type: addPost.type,
-                    user: addPost.user
+                    user: userInfo._id
                 }
             )
             responseHandler(res,resData,200);
