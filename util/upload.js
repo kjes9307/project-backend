@@ -11,7 +11,7 @@ const upload = multer({
         }
         cb(null, true)
     }
-})
+}).any();
 
 
 module.exports = upload;
