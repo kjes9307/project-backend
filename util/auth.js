@@ -11,7 +11,7 @@ const isAuth = asyncErrorHandler(async (req, res, next) => {
       token = req.headers.authorization.split(' ')[1];
     }
     if (!token) {
-      return next(appError(401,'你尚未登入！',next));
+      return next(appError(401,'你尚未登入！',next,res));
     }
   
     // 驗證 token 正確性

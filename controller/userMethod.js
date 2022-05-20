@@ -1,7 +1,10 @@
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const path = require('path');
 const User = require('../model/userModel.js')
-const {tokenGenerator,appError} = require("../util/tool")
+const {tokenGenerator,appError,responseHandler} = require("../util/tool")
+const PathName=path.join(path.dirname(__dirname),'public','images')
+
 const userService = {
     register : async({req,res,next}) =>{
         let { email, password,confirmPassword,name } = req.body;
@@ -50,6 +53,9 @@ const userService = {
           return next(appError(400,err,next,res));
         }
         tokenGenerator(user,200,res);
+    },uploadImg: ({req,res,next})=>{
+        let url= PathName+req.file.filename;
+        responseHandler(res,url,200);
     }
 }
 

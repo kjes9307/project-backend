@@ -1,5 +1,6 @@
 const express = require('express');
 const userService = require('../controller/userMethod')
+const upload = require('../util/upload');
 const {asyncErrorHandler} = require('../util/tool');
 const router = express.Router();
 
@@ -10,6 +11,10 @@ router.post('/register', asyncErrorHandler(async (req,res,next)=>{
 
 router.post('/login', asyncErrorHandler(async(req,res,next)=>{
     await userService.login({req,res,next})
+}))
+
+router.post('/uploadImg',upload.single("images"),((req,res,next)=>{
+    userService.uploadImg({req,res,next})
 }))
 
 module.exports = router
