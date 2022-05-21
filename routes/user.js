@@ -13,7 +13,7 @@ router.post('/login', asyncErrorHandler(async(req,res,next)=>{
     await userService.login({req,res,next})
 }))
 
-router.post('/uploadImg',upload.single("images"),((req,res,next)=>{
+router.post('/uploadImg',upload,((req,res,next)=>{
     userService.uploadImg({req,res,next})
 }))
 
