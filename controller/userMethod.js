@@ -1,9 +1,8 @@
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
-const path = require('path');
+const {ImgurClient} = require("imgur");
 const User = require('../model/userModel.js')
 const {tokenGenerator,appError,responseHandler} = require("../util/tool")
-const PathName=path.join(path.dirname(__dirname),'public','images')
 
 const userService = {
     register : async({req,res,next}) =>{
@@ -53,9 +52,30 @@ const userService = {
           return next(appError(400,err,next,res));
         }
         tokenGenerator(user,200,res);
-    },uploadImg: ({req,res,next})=>{
-        let url= PathName+req.file.filename;
-        responseHandler(res,url,200);
+    },uploadImg: async({req,res,next})=>{
+      
+      if(req.files.length === 0){
+        return next(appError(400,"檔案未上傳",next))
+      }
+
+    
+      const client = new ImgurClient({
+        clientId: process.env.imgur_client_id,
+        clientSecret: process.env.imgur_secret,
+        refreshToken: process.env.imgur_refresh_token,
+      });
+
+      const response = await client.upload({
+        image: req.files[0].buffer.toString('base64'),
+        type: 'base64',
+        album: process.env.imgur_alubm_id
+      });
+      if(response.status === 200) {
+        let url = response.data.link || ""
+        return responseHandler(res,{url},200);
+      }else{
+        return next(appError(400,"檔案上傳發生錯誤",next))
+      }
     }
 }
 
