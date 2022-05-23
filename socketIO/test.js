@@ -1,3 +1,5 @@
+const Chat = require("../model/chatModel.js")
+const history = {msg: "i want eat"}
 module.exports = (server) =>{
     
     const io = require('socket.io')(server,{
@@ -8,14 +10,13 @@ module.exports = (server) =>{
     });
 
     io.on('connection', (socket) => { 
-        console.log("socket connected")
+        console.log("socket服務已經開啟")
         // 接收數據
-        socket.on('sendMsg',(data)=>{
+        socket.on('clientMsg',(data)=>{
             console.log("msg from clients",data)
-            // 處理 & 發送
-            io.emit('receiveMsg', data.name+"its from server")
-            console.log("msg to client")
+            socket.emit('serverMsg',data+"123")
         })
+        socket.emit("history",history.msg)
     })
 
 }

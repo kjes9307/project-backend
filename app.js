@@ -9,6 +9,7 @@ require('./connect')
 dotenv.config({path :"./config.env"});
 const postRouter = require('./routes/posts');
 const userRouter = require('./routes/user');
+const chatRouter = require('./routes/chat')
 const app = express();
 
 app.use(cors())
@@ -22,6 +23,7 @@ require('./util/exceptionHandle')
 // app.use('/', indexRouter);
 app.use('/posts', postRouter);
 app.use('/user', userRouter);
+app.use('/chat', chatRouter);
 
 app.use((req,res,next)=>{
     console.log("@404路由");
