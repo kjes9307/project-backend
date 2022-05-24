@@ -2,7 +2,8 @@
 	"info": {
 		"_postman_id": "f48d8e9e-a64a-4fc4-8b10-2f823abb19a4",
 		"name": "API For MetaWall",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9437318"
 	},
 	"item": [
 		{
@@ -11,7 +12,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://morning-ocean-14546.herokuapp.com/posts/?key=2&timeSort=asc",
+					"raw": "https://morning-ocean-14546.herokuapp.com/posts/",
 					"protocol": "https",
 					"host": [
 						"morning-ocean-14546",
@@ -25,11 +26,13 @@
 					"query": [
 						{
 							"key": "key",
-							"value": "2"
+							"value": "2",
+							"disabled": true
 						},
 						{
 							"key": "timeSort",
-							"value": "asc"
+							"value": "asc",
+							"disabled": true
 						}
 					]
 				}
@@ -40,7 +43,13 @@
 			"name": "APP POST",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"name\": \"123\",\r\n    \"content\": \"123\",\r\n    \"tags\" : \"心情\",\r\n    \"type\" : \"\",\r\n    \"user\" : \"6281e21843b0a3a5f7187d55\"\r\n}",
@@ -60,77 +69,6 @@
 					],
 					"path": [
 						"posts"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "APP Patch",
-			"request": {
-				"method": "PATCH",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"eric\",\r\n    \"content\": \"1243\",\r\n    \"tags\" : [\"proveb\"],\r\n    \"type\" : \"group\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://morning-ocean-14546.herokuapp.com/posts/628116b7c614a30e0936c9d2",
-					"protocol": "https",
-					"host": [
-						"morning-ocean-14546",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"posts",
-						"628116b7c614a30e0936c9d2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "APP Delete All",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "https://morning-ocean-14546.herokuapp.com/posts",
-					"protocol": "https",
-					"host": [
-						"morning-ocean-14546",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"posts"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "APP Delete one",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "https://morning-ocean-14546.herokuapp.com/posts/6281117758eab61c07ea7c46",
-					"protocol": "https",
-					"host": [
-						"morning-ocean-14546",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"posts",
-						"6281117758eab61c07ea7c46"
 					]
 				}
 			},
@@ -172,7 +110,7 @@
 				"method": "POST",
 				"header": [
 					{
-						"key": "Bearer",
+						"key": "Authorization",
 						"value": "",
 						"type": "text",
 						"disabled": true
@@ -180,7 +118,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"password\": \"123456\",\r\n    \"email\" : \"123@gmail.com\"\r\n}",
+					"raw": "{\r\n    \"password\": \"111111\",\r\n    \"email\" : \"333@gmail.com\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
