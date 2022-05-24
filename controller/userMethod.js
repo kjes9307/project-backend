@@ -62,11 +62,9 @@ const userService = {
         return next(appError( 400,'密碼不可為空',next,res));
       }
 
-      const user = await User.findOne({ _id : id }).select('+password');
-      const auth = await bcrypt.compare(password, user.password);
-      if(!auth){
-        err.name = '輸入的密碼不正確'  
-        return next(appError(400,err,next,res));
+      if(password!==newPassword){
+        err.name = "密碼不一致！"  
+        return next(appError(400,"密碼不一致！",next,res));
       }
       if(!validator.isLength(newPassword,{min:6})){
         err.name = "密碼字數低於 6 碼" 
@@ -78,20 +76,27 @@ const userService = {
       responseHandler(res,data,200);
     },
     getProfile : async ({req,res,next}) => {
-      let {photo,sex} = req.body;
       const id = req.user._id
-      const user = await User.findByIdAndUpdate(id,{photo,sex},{ runValidators: true,new: true })
+      const user = await User.findOne({ _id: id });
       responseHandler(res,user,200);
 
     },
     updateProfile : async ({req,res,next}) => {
       const id = req.user._id
-    },uploadImg: async({req,res,next})=>{
-      
+      const user = await User.findOne({ _id: id });
+      let newEdit ={
+        sex : req.body.sex,
+        name : req.body.name,
+        photo : req.body.photo
+      }
+      let data = await User.findByIdAndUpdate(user._id,newEdit,{ runValidators: true,new: true });
+      responseHandler(res,data,200)
+
+    },
+    uploadImg: async({req,res,next})=>{
       if(req.files.length === 0){
         return next(appError(400,"檔案未上傳",next))
       }
-
     
       const client = new ImgurClient({
         clientId: process.env.imgur_client_id,

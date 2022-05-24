@@ -15,12 +15,11 @@ const userSchema = new mongoose.Schema({
     },
     photo: {
         type :String,
-        default:"",
-        enum:["男性","女性"]    
+        default:""  
     },
     sex:{
       type: String,
-      enum:["male","female"],
+      enum:["男性","女性"],
       default:""
     },
     password:{

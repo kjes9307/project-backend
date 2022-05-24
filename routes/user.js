@@ -20,6 +20,10 @@ router.post('/reset', isAuth, asyncErrorHandler(async(req,res,next)=>{
 router.get('/profile', isAuth, asyncErrorHandler(async(req,res,next)=>{
     await userService.getProfile({req,res,next})
 }))
+
+router.patch('/updateUser', isAuth, asyncErrorHandler(async(req,res,next)=>{
+    await userService.updateProfile({req,res,next})
+}))
     
 router.post('/uploadImg',isAuth,upload,asyncErrorHandler(async(req,res,next)=>{
     await userService.uploadImg({req,res,next})

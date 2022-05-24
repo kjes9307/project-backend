@@ -22,7 +22,8 @@ let postAPI = {
                     likes: addPost.likes,
                     tags: addPost.tags,
                     type: addPost.type,
-                    user: userInfo._id
+                    user: userInfo._id,
+                    image : addPost.image
                 }
             )
             responseHandler(res,resData,200);

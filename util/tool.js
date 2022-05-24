@@ -95,7 +95,9 @@ const tokenGenerator= (user,statusCode,res)=>{
     user.password = undefined; // pw 不要丟到前台
     let resData = {
         token,
-        name: user.name
+        name: user.name,
+        sex: user.sex,
+        photo: user.photo
     }
     responseHandler(res,resData,statusCode)
   }
