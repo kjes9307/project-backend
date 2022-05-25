@@ -1,0 +1,51 @@
+{
+	"info": {
+		"_postman_id": "e9e762c2-371e-48a3-a6d0-950dd78ce34b",
+		"name": "API For MetaWall 3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9437318"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "API Upload",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/user/Desktop/reminder.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/uploadImg",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"uploadImg"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
