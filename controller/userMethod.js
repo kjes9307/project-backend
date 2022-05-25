@@ -12,6 +12,12 @@ const userService = {
           err.name = "欄位未填寫正確！"
           return next(appError(400,err,next,res));
         }
+        // 信箱已經被註冊
+        const user = await User.findOne({ email }).select("+ email")
+        if(user){
+          err.name = "信箱已被註冊！"  
+          return next(appError(400,"信箱已被註冊！",next,res));
+        }
         // 密碼正確
         if(password!==confirmPassword){
           err.name = "密碼不一致！"  
