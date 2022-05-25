@@ -31,12 +31,13 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/user/uploadImg",
-							"protocol": "http",
+							"raw": "https://morning-ocean-14546.herokuapp.com/user/uploadImg",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"morning-ocean-14546",
+								"herokuapp",
+								"com"
 							],
-							"port": "3000",
 							"path": [
 								"user",
 								"uploadImg"
