@@ -53,18 +53,23 @@ const userService = {
         tokenGenerator(user,200,res);
     },
     resetPassWord : async ({req,res,next}) => {
-      let {password,newPassword} = req.body;
+      let {password,newPassword,email} = req.body;
       const id = req.user._id
-      
+      const user = await User.findOne({ _id: id }).select('+email');
       let err = new Error()
+      if(user.email !== email){
+        err.name = "人員信箱比對錯誤" 
+        return next(appError( 400,err,next,res));
+      }
+
       if (!password) {
         err.name = "密碼不可為空" 
-        return next(appError( 400,'密碼不可為空',next,res));
+        return next(appError( 400,err,next,res));
       }
 
       if(password!==newPassword){
         err.name = "密碼不一致！"  
-        return next(appError(400,"密碼不一致！",next,res));
+        return next(appError(400,err,next,res));
       }
       if(!validator.isLength(newPassword,{min:6})){
         err.name = "密碼字數低於 6 碼" 

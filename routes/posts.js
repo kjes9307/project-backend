@@ -5,7 +5,7 @@ const isAuth = require("../util/auth")
 const postAPI= require("../controller/postMethod.js")
 
 /* GET home page. */
-router.get('/',asyncErrorHandler(async function(req, res, next) {
+router.get('/',isAuth,asyncErrorHandler(async function(req, res, next) {
     await postAPI.findPost({req,res,next});
 }));
 
