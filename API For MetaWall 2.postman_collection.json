@@ -1,0 +1,255 @@
+{
+	"info": {
+		"_postman_id": "9ee26ce5-21ee-43e7-8feb-f5c599020620",
+		"name": "API For MetaWall 2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9437318"
+	},
+	"item": [
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "APP Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://morning-ocean-14546.herokuapp.com/posts/",
+							"protocol": "https",
+							"host": [
+								"morning-ocean-14546",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"posts",
+								""
+							],
+							"query": [
+								{
+									"key": "timeSort",
+									"value": "asc",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APP POST",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"你的小老虎上限拉\",\r\n    \"tags\" : \"心情\",\r\n    \"type\" : \"group\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://morning-ocean-14546.herokuapp.com/posts",
+							"protocol": "https",
+							"host": [
+								"morning-ocean-14546",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "APP Get Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://morning-ocean-14546.herokuapp.com/user/profile",
+							"protocol": "https",
+							"host": [
+								"morning-ocean-14546",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APP Patch Update Profile",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sex\" : \"男性\", \"name\" : \"迷路中的小老虎22\" , \"photo\": \"https://i.imgur.com/JhstGJB.png\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://morning-ocean-14546.herokuapp.com/user/updateUser",
+							"protocol": "https",
+							"host": [
+								"morning-ocean-14546",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"user",
+								"updateUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "API Register ",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"迷路的小老虎2\",\r\n    \"password\": \"333333\",\r\n    \"confirmPassword\" : \"333333\",\r\n    \"email\" : \"tiger1@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://morning-ocean-14546.herokuapp.com/user/register",
+							"protocol": "https",
+							"host": [
+								"morning-ocean-14546",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "API Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"111111\",\r\n    \"newPassword\" : \"111111\",\r\n    \"email\" : \"tiger@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://morning-ocean-14546.herokuapp.com/user/reset",
+							"protocol": "https",
+							"host": [
+								"morning-ocean-14546",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"user",
+								"reset"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "API Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Bearer",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"333333\",\r\n    \"email\" : \"tiger1@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://morning-ocean-14546.herokuapp.com/user/login",
+							"protocol": "https",
+							"host": [
+								"morning-ocean-14546",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
