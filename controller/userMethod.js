@@ -41,7 +41,12 @@ const userService = {
           password,
           name
         });
-        tokenGenerator(createUser,201,res);
+        let resData = {
+          name: createUser.name,
+          sex: "",
+          photo: ""
+        }
+        responseHandler(res,resData,201)
     },
     login : async({req,res,next})=>{
         const { email, password } = req.body;
