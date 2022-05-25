@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "cross-env NODE_ENV=prd node ./bin/www",
-    "start:dev": "cross-env NODE_ENV=dev nodemon ./bin/www"
+    "start:dev": "cross-env NODE_ENV=dev nodemon ./bin/www",
+    "swagger": "node ./swagger.js"
   },
   "dependencies": {
     "axios": "^0.27.2",
