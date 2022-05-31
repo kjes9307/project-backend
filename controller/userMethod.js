@@ -49,7 +49,6 @@ const userService = {
         responseHandler(res,resData,201)
     },
     login : async(req,res,next)=>{
-        console.log(req);
         const { email, password } = req.body;
         let err = new Error()
         if (!email || !password) {
