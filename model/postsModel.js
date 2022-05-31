@@ -34,11 +34,12 @@ const mongoose = require('mongoose');
             required: [true, 'Content 未填寫'],
             cast: false
           },
-          likes: {
-            type: Number,
-            default: 0,
-            cast: false
-          },
+          likes: [
+            { 
+              type: mongoose.Schema.ObjectId, 
+              ref: 'User' 
+            }
+          ],
           comments:{
             type: Number,
             default: 0,

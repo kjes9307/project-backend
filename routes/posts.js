@@ -93,4 +93,8 @@ router.delete('/',asyncErrorHandler(postAPI.deleteAll));
 
 router.patch('/:id',asyncErrorHandler(postAPI.editPost));
 
+router.post('/addlike/:id',isAuth,asyncErrorHandler(postAPI.addLike))
+
+router.post('/deletelike/:id',isAuth,asyncErrorHandler(postAPI.deleteLike))
+
 module.exports = router;

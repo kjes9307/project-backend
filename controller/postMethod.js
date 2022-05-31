@@ -51,6 +51,31 @@ let postAPI = {
             }else{
                 return next(appError("404","IdNotFound",next,res));
             }
+    },
+    addLike : async (req,res,next) => {
+        const _id = req.params.id;
+        let data = await Post.findOneAndUpdate(
+            { _id},
+            { $addToSet: { likes: req.user.id } },
+            { runValidators: true,new: true }
+        ).select("_id likes");
+        if(data !== null){
+            responseHandler(res,data,201);
+        }else{
+            return next(appError("404","Post Not Found",next,res));
+        }
+    },
+    deleteLike : async (req,res,next) =>{
+        const _id = req.params.id;
+        let data = await Post.findOneAndUpdate(
+            { _id},
+            { $pull: { likes: req.user.id } }
+            ,{ runValidators: true,new: true }).select("_id likes");
+        if(data !== null){
+            responseHandler(res,data,201);
+        }else{
+            return next(appError("404","Post Not Found",next,res));
+        }  
     }
 }
 module.exports= postAPI;

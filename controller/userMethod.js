@@ -2,6 +2,7 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const {ImgurClient} = require("imgur");
 const User = require('../model/userModel.js')
+const Post = require('../model/postsModel.js')
 const {tokenGenerator,appError,responseHandler} = require("../util/tool")
 const userService = {
     register : async(req,res,next) =>{
@@ -131,6 +132,17 @@ const userService = {
       }else{
         return next(appError(400,"檔案上傳發生錯誤",next))
       }
+    },
+    getLikeList : async (req,res,next)=>{
+      // 按讚紀錄顯示
+      const data = await Post.find({
+        likes: { $in: [req.user._id] }
+      }).populate({
+        path:"user",
+        select:"name _id"
+      });
+      if(data.length===0) return next(appError(401,"尚未追蹤任何人",next))
+      responseHandler(res,data,200)
     }
 }
 
