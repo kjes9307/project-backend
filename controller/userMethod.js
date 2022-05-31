@@ -4,7 +4,7 @@ const {ImgurClient} = require("imgur");
 const User = require('../model/userModel.js')
 const {tokenGenerator,appError,responseHandler} = require("../util/tool")
 const userService = {
-    register : async({req,res,next}) =>{
+    register : async(req,res,next) =>{
         let { email, password,confirmPassword,name } = req.body;
         let err = new Error()
         // 內容不可為空
@@ -48,7 +48,7 @@ const userService = {
         }
         responseHandler(res,resData,201)
     },
-    login : async({req,res,next})=>{
+    login : async(req,res,next)=>{
         const { email, password } = req.body;
         let err = new Error()
         if (!email || !password) {
@@ -63,7 +63,7 @@ const userService = {
         }
         tokenGenerator(user,200,res);
     },
-    resetPassWord : async ({req,res,next}) => {
+    resetPassWord : async (req,res,next) => {
       let {password,newPassword,email} = req.body;
       const id = req.user._id
       const user = await User.findOne({ _id: id }).select('+email');
@@ -91,13 +91,13 @@ const userService = {
       let data = await User.findByIdAndUpdate(id,{password: newPassword},{ runValidators: true,new: true });
       responseHandler(res,data,200);
     },
-    getProfile : async ({req,res,next}) => {
+    getProfile : async (req,res,next) => {
       const id = req.user._id
       const user = await User.findOne({ _id: id });
       responseHandler(res,user,200);
 
     },
-    updateProfile : async ({req,res,next}) => {
+    updateProfile : async (req,res,next) => {
       const id = req.user._id
       const user = await User.findOne({ _id: id });
       let newEdit ={
@@ -109,7 +109,7 @@ const userService = {
       responseHandler(res,data,200)
 
     },
-    uploadImg: async({req,res,next})=>{
+    uploadImg: async(req,res,next)=>{
       if(req.files.length === 0){
         return next(appError(400,"檔案未上傳",next))
       }

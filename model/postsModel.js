@@ -2,11 +2,6 @@
 const mongoose = require('mongoose');
     // 建立collection 
     const PostSchema = new mongoose.Schema( {
-          name: {
-            type: String,
-            required: [true, '貼文姓名未填寫'],
-            cast: false
-          },
           user:{
             ref:"user",
             type: mongoose.Schema.ObjectId,

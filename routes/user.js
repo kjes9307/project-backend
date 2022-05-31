@@ -5,28 +5,16 @@ const {asyncErrorHandler} = require('../util/tool');
 const isAuth = require("../util/auth")
 const router = express.Router();
 
-router.post('/register', asyncErrorHandler(async (req,res,next)=>{
-    await userService.register({req,res,next});
-}))
+router.post('/register', asyncErrorHandler(userService.register))
 
-router.post('/login', asyncErrorHandler(async(req,res,next)=>{
-    await userService.login({req,res,next})
-}))
+router.post('/login', asyncErrorHandler(userService.login))
 
-router.post('/reset', isAuth, asyncErrorHandler(async(req,res,next)=>{
-    await userService.resetPassWord({req,res,next})
-}))
+router.post('/reset', isAuth, asyncErrorHandler(userService.resetPassWord))
 
-router.get('/profile', isAuth, asyncErrorHandler(async(req,res,next)=>{
-    await userService.getProfile({req,res,next})
-}))
+router.get('/profile', isAuth, asyncErrorHandler(userService.getProfile))
 
-router.patch('/updateUser', isAuth, asyncErrorHandler(async(req,res,next)=>{
-    await userService.updateProfile({req,res,next})
-}))
+router.patch('/updateUser', isAuth, asyncErrorHandler(userService.updateProfile))
     
-router.post('/uploadImg',isAuth,upload,asyncErrorHandler(async(req,res,next)=>{
-    await userService.uploadImg({req,res,next})
-}))
+router.post('/uploadImg',isAuth,upload,asyncErrorHandler(userService.uploadImg))
 
 module.exports = router
