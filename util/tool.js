@@ -23,19 +23,16 @@ const responseHandler = (res,data,statusCode) => {
     }
 }
 
-const checkInput = (body) => {
-    let err = new Error()
+const checkInput = (body,res,next) => {
     if(Object.keys(body).length === 0){  
-        err.name = "Clinet Input Error"
-        throw err;
+        return next(appError("404","Clinet Input Error",next,res))
     }else{
         let element = ["name","content","tags","type"];
         for(let i = 0 ; i< element.length;i++){
             let key = element[i]
             if(body[key] === "" || !body[key] === true){
                 console.log(`${key} is required`)
-                err.name = `${key} is required, Check Input Error`
-                throw err;
+                return next(appError("404",`${key} is required, Check Input Error`,next,res))
             }
         }
     }
