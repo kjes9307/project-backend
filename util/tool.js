@@ -94,7 +94,8 @@ const tokenGenerator= (user,statusCode,res)=>{
         token,
         name: user.name,
         sex: user.sex,
-        photo: user.photo
+        photo: user.photo,
+        id: user._id
     }
     responseHandler(res,resData,statusCode)
   }

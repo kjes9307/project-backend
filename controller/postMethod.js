@@ -54,6 +54,7 @@ let postAPI = {
     },
     addLike : async (req,res,next) => {
         const _id = req.params.id;
+        console.log(_id)
         let data = await Post.findOneAndUpdate(
             { _id},
             { $addToSet: { likes: req.user.id } },
@@ -67,6 +68,7 @@ let postAPI = {
     },
     deleteLike : async (req,res,next) =>{
         const _id = req.params.id;
+        console.log(_id)
         let data = await Post.findOneAndUpdate(
             { _id},
             { $pull: { likes: req.user.id } }
