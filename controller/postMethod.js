@@ -1,13 +1,20 @@
 const Post = require("../model/postsModel.js")
 const User = require("../model/userModel.js")
-
+const Comment = require("../model/commentModel.js")
 const {responseHandler,checkInput,appError} = require("../util/tool")
 
 let postAPI = {
     findPost : async (req,res,next)=>{
         const timeSort = req.query.timeSort == "asc" ? "createAt":"-createAt"
         const key = req.query.key !== undefined ? {"content": new RegExp(req.query.key)} : {};    
-        const data = await Post.find(key).populate({path:'user',select:'name photo'}).sort(timeSort);
+        const data = 
+            await Post.find(key).populate({
+                path:'user',
+                select:'name photo'
+            }).populate({
+                path: 'comments',
+                select: 'userComment user createTime -post'
+            }).sort(timeSort);
         responseHandler(res,data,200);
     },
     createPost : async (req,res,next)=>{
@@ -78,6 +85,26 @@ let postAPI = {
         }else{
             return next(appError("404","Post Not Found",next,res));
         }  
+    },
+    postComment : async (req,res,next) =>{
+        const user = req.user.id;
+        const post = req.params.id;
+        const {comment} = req.body;
+        const data = await Comment.create({
+            post,
+            user,
+            comment
+        });
+        responseHandler(res,data,201);
+
+    },
+    getUserComment : async (req,res,next) =>{
+        const user = req.params.id;
+        const data = await Post.find({user}).populate({
+            path: 'comments',
+            select: 'userComment user createTime -post'
+        });
+        responseHandler(res,data,200);
     }
 }
 module.exports= postAPI;
