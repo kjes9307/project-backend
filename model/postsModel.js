@@ -37,20 +37,22 @@ const mongoose = require('mongoose');
           likes: [
             { 
               type: mongoose.Schema.ObjectId, 
-              ref: 'User' 
+              ref: 'user' 
             }
-          ],
-          comments:{
-            type: Number,
-            default: 0,
-            cast: false
-          }
+          ]
     },{
         versionKey: false,
-        collection : "post"
+        collection : "post",
+        toJSON: { virtuals: true },
+        toObject: { virtuals: true }
     }
     );
-    // 預設加上"s"
+    PostSchema.virtual('comments', {
+      ref: 'Comment',
+      foreignField: 'post',
+      localField: '_id'
+    });
+
     const Post = mongoose.model('Post', PostSchema);
     
     module.exports = Post;
