@@ -100,4 +100,6 @@ router.post('/deletelike/:id',isAuth,asyncErrorHandler(postAPI.deleteLike))
 router.post('/comment/:id',isAuth,asyncErrorHandler(postAPI.postComment))
 
 router.get('/getComment/:id',isAuth,asyncErrorHandler(postAPI.getUserComment));
+
+router.delete('/delcomment/:id',isAuth,asyncErrorHandler(postAPI.deleteComment))
 module.exports = router;

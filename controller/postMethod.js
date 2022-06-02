@@ -89,11 +89,11 @@ let postAPI = {
     postComment : async (req,res,next) =>{
         const user = req.user.id;
         const post = req.params.id;
-        const {comment} = req.body;
+        const {userComment} = req.body;
         const data = await Comment.create({
             post,
             user,
-            comment
+            userComment
         });
         responseHandler(res,data,201);
 
@@ -105,6 +105,15 @@ let postAPI = {
             select: 'userComment user createTime -post'
         });
         responseHandler(res,data,200);
+    },
+    deleteComment : async (req,res,next) =>{
+        let {id} = req.params;
+        let data = await Comment.findByIdAndDelete(id);
+        if(data !== null){
+            responseHandler(res,data,200);
+        }else{
+            return next(appError("404","IdNotFound",next,res));
+        }
     }
 }
 module.exports= postAPI;
