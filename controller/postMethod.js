@@ -6,7 +6,7 @@ const {responseHandler,checkInput,appError} = require("../util/tool")
 let postAPI = {
     findPost : async (req,res,next)=>{
         const timeSort = req.query.timeSort == "asc" ? "createAt":"-createAt"
-        const key = req.query.key !== undefined ? {"content": new RegExp(req.query.key)} : {};    
+        let key = req.query.key !== undefined ? {"content": new RegExp(req.query.key)} : {}; 
         const data = 
             await Post.find(key).populate({
                 path:'user',
@@ -15,6 +15,17 @@ let postAPI = {
                 path: 'comments',
                 select: 'userComment user createTime -post'
             }).sort(timeSort);
+        responseHandler(res,data,200);
+    },
+    findSinglePost : async (req,res,next)=>{
+        const data = 
+            await Post.find({_id :req.query.key}).populate({
+                path:'user',
+                select:'name photo'
+            }).populate({
+                path: 'comments',
+                select: 'userComment user createTime -post'
+            })
         responseHandler(res,data,200);
     },
     createPost : async (req,res,next)=>{

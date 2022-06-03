@@ -137,11 +137,25 @@ const userService = {
       // 按讚紀錄顯示
       const data = await Post.find({
         likes: { $in: [req.user._id] }
+      }).select("_id user createAt").populate({
+        path:"user",
+        select:"name _id photo likes"
+      });
+      if(data.length===0) return responseHandler(res,data,200)
+      responseHandler(res,data,200)
+    },
+    getUserPost : async (req,res,next)=>{
+      const timeSort = req.query.timeSort == "asc" ? "createAt":"-createAt"
+      const data = await Post.find({
+        user: { _id: req.user._id}
       }).populate({
         path:"user",
-        select:"name _id"
-      });
-      if(data.length===0) return next(appError(401,"尚未追蹤任何人",next))
+        select:"name _id photo likes"
+      }).populate({
+        path: 'comments',
+        select: 'userComment user createTime -post'
+      }).sort(timeSort);;
+      if(data.length===0) return responseHandler(res,data,200)
       responseHandler(res,data,200)
     }
 }
