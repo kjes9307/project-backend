@@ -146,15 +146,17 @@ const userService = {
     },
     getUserPost : async (req,res,next)=>{
       const timeSort = req.query.timeSort == "asc" ? "createAt":"-createAt"
-      const data = await Post.find({
-        user: { _id: req.user._id}
-      }).populate({
+      let obj = {};
+      obj['user'] = { _id: req.query._id}
+      if(req.query.key !== undefined) obj['content'] = new RegExp(req.query.key); 
+
+      const data = await Post.find(obj).populate({
         path:"user",
         select:"name _id photo likes"
       }).populate({
         path: 'comments',
         select: 'userComment user createTime -post'
-      }).sort(timeSort);;
+      }).sort(timeSort);
       if(data.length===0) return responseHandler(res,data,200)
       responseHandler(res,data,200)
     }
