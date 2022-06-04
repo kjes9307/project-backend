@@ -42,6 +42,8 @@ router.get('/',isAuth,asyncErrorHandler(postAPI.findPost
      */
 ));
 
+router.get('/singlePost',isAuth,asyncErrorHandler(postAPI.findSinglePost));
+
 router.post('/',isAuth,asyncErrorHandler(postAPI.createPost
     /**
      * #swagger.tags=['Post'] 

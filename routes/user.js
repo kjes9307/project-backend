@@ -18,4 +18,6 @@ router.patch('/updateUser', isAuth, asyncErrorHandler(userService.updateProfile)
 router.post('/uploadImg',isAuth,upload,asyncErrorHandler(userService.uploadImg))
 
 router.get('/getLikeList',isAuth,asyncErrorHandler(userService.getLikeList))
+
+router.get('/getUserPost',isAuth,asyncErrorHandler(userService.getUserPost))
 module.exports = router
