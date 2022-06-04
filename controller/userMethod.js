@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const {ImgurClient} = require("imgur");
 const User = require('../model/userModel.js')
 const Post = require('../model/postsModel.js')
+const Track = require('../model/trackModel.js')
 const {tokenGenerator,appError,responseHandler} = require("../util/tool")
 const userService = {
     register : async(req,res,next) =>{
@@ -159,6 +160,41 @@ const userService = {
       }).sort(timeSort);
       if(data.length===0) return responseHandler(res,data,200)
       responseHandler(res,data,200)
+    },
+    addTrack : async (req,res,next)=>{
+      let reqData = req.body.followID;
+      let isTrackExist = await Track.find({user:req.user._id});
+      let data;
+      let User = req.user._id
+      if(isTrackExist.length ===0){
+        data = await Track.create({
+          followList: [reqData],
+          user: User
+        })
+      }else{
+        data = await Track.findOneAndUpdate(
+          { user: User},
+          { $addToSet: { followList: reqData } },
+          { runValidators: true,new: true }
+        )
+      }
+      responseHandler(res,data,200)
+    },
+    cancelTrack : async (req,res,next)=>{
+      let reqData = req.body.unfollowID;
+      let User = req.user._id
+      data = await Track.findOneAndUpdate(
+        { user: User},
+        { $pull: { followList: reqData } },
+        { runValidators: true,new: true }
+      )
+      responseHandler(res,data,200)
+    },
+    getTrackList : async(req,res,next)=>{
+      let User = req.user._id
+      let data = await Track.find({user:User})
+      responseHandler(res,data,200)
+
     }
 }
 

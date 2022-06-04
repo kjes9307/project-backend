@@ -20,4 +20,11 @@ router.post('/uploadImg',isAuth,upload,asyncErrorHandler(userService.uploadImg))
 router.get('/getLikeList',isAuth,asyncErrorHandler(userService.getLikeList))
 
 router.get('/getUserPost',isAuth,asyncErrorHandler(userService.getUserPost))
+
+router.post('/addTrack',isAuth,asyncErrorHandler(userService.addTrack))
+
+router.post('/cancelTrack',isAuth,asyncErrorHandler(userService.cancelTrack))
+
+router.get('/getTrackList',isAuth,asyncErrorHandler(userService.getTrackList))
+
 module.exports = router
