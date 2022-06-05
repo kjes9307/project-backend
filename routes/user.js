@@ -27,4 +27,10 @@ router.post('/cancelTrack',isAuth,asyncErrorHandler(userService.cancelTrack))
 
 router.get('/getTrackList',isAuth,asyncErrorHandler(userService.getTrackList))
 
+router.post('/Follow',isAuth,asyncErrorHandler(userService.addFollwer))
+
+router.post('/unFollow',isAuth,asyncErrorHandler(userService.minusFollower))
+
+router.get('/getFollow',isAuth,asyncErrorHandler(userService.getFollower))
+
 module.exports = router

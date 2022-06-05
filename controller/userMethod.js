@@ -4,6 +4,7 @@ const {ImgurClient} = require("imgur");
 const User = require('../model/userModel.js')
 const Post = require('../model/postsModel.js')
 const Track = require('../model/trackModel.js')
+const Follow = require('../model/followModel.js')
 const {tokenGenerator,appError,responseHandler} = require("../util/tool")
 const userService = {
     register : async(req,res,next) =>{
@@ -192,9 +193,58 @@ const userService = {
     },
     getTrackList : async(req,res,next)=>{
       let User = req.user._id
-      let data = await Track.find({user:User})
+      let data = await Track.find({user:User}).populate({
+        path:"followList",
+        populate: {
+           path: '_id', 
+           select: "name _id photo"
+        }
+      });
       responseHandler(res,data,200)
 
+    },
+    addFollwer : async(req,res,next) =>{
+      let reqData = req.body.followID;
+      let followerID = req.user._id
+
+      // 被追蹤 表示+1
+      let data;
+      let isFollowCreated = await Follow.find({user:reqData._id});
+      if(isFollowCreated.length ===0){
+        data = await Follow.create({
+          follower: followerID,
+          user: reqData._id
+        })
+      }else{
+        data = await Follow.findOneAndUpdate(
+          { user: reqData._id},
+          { $addToSet: { follower: followerID } },
+          { runValidators: true,new: true }
+        )
+      }
+      responseHandler(res,data,200)
+    },
+    minusFollower : async(req,res,next) =>{
+      let reqData = req.body.unfollowID;
+      let followerID = req.user._id
+      let data = await Follow.findOneAndUpdate(
+        { user: reqData._id},
+        { $pull: { follower: followerID } },
+        { runValidators: true,new: true }
+      )
+      responseHandler(res,data,200)
+    },
+    getFollower : async(req,res,next) =>{
+      let data = 
+        await Follow.find({user :req.query._id})
+        .populate({
+          path: 'user',
+          select:'name'
+        }).populate({
+          path: 'follower',
+          select: 'name'
+        });
+      responseHandler(res,data,200);
     }
 }
 
