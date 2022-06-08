@@ -1,6 +1,6 @@
 const multer = require('multer');
 const upload = multer({
-    limit: {
+    limits: {
         // 限制上傳檔案的大小為 1MB
         fileSize: 1*1024*1024
     },
