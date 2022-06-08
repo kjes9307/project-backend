@@ -9,32 +9,34 @@ const {tokenGenerator,appError,responseHandler} = require("../util/tool")
 const userService = {
     register : async(req,res,next) =>{
         let { email, password,confirmPassword,name } = req.body;
-        let err = new Error()
         // 內容不可為空
         if(!email||!password||!confirmPassword||!name){
-          err.name = "欄位未填寫正確！"
-          return next(appError(400,err,next,res));
+          return next(appError(400,"欄位未填寫正確！",next,res));
         }
         // 信箱已經被註冊
         const user = await User.findOne({ email }).select("+ email")
         if(user){
-          err.name = "信箱已被註冊！"  
           return next(appError(400,"信箱已被註冊！",next,res));
         }
         // 密碼正確
         if(password!==confirmPassword){
-          err.name = "密碼不一致！"  
           return next(appError(400,"密碼不一致！",next,res));
         }
-        // 密碼 8 碼以上
+        // 密碼 6 碼以上
+        if(!validator.isLength(name,{min:2})){ 
+          return next(appError(400,"暱稱必須包含兩個字元",next,res));
+        }
+        // 密碼 6 碼以上
         if(!validator.isLength(password,{min:6})){
-          err.name = "密碼字數低於 6 碼" 
-          return next(appError(400,err,next,res));
+          return next(appError(400,"密碼字數低於 6 碼",next,res));
+        }
+        // 密碼只能是英文OR數字
+        if(!validator.isAlphanumeric(password)){
+          return next(appError(400,"密碼只能包含英文或數字",next,res));
         }
         // 是否為 Email
         if(!validator.isEmail(email)){
-          err.name = "Email 格式不正確" 
-          return next(appError(400,err,next,res));
+          return next(appError(400,"Email 格式不正確" ,next,res));
         }
         
         // 加密密碼
@@ -53,45 +55,43 @@ const userService = {
     },
     login : async(req,res,next)=>{
         const { email, password } = req.body;
-        let err = new Error()
+        if (!email.trim()) {
+          return next(appError( 400,'帳號不可為空',next,res));
+        }
         if (!email || !password) {
-          err.name = "帳號密碼不可為空" 
           return next(appError( 400,'帳號密碼不可為空',next,res));
         }
         const user = await User.findOne({ email }).select('+password');
         const auth = await bcrypt.compare(password, user.password);
         if(!auth){
-          err.name = '您的密碼不正確'  
-          return next(appError(400,err,next,res));
+          return next(appError(400,'您的密碼不正確',next,res));
         }
         tokenGenerator(user,200,res);
     },
     resetPassWord : async (req,res,next) => {
       let {password,newPassword,email} = req.body;
+      const confirmPassword = newPassword;
       const id = req.user._id
       const user = await User.findOne({ _id: id }).select('+email');
-      let err = new Error()
       if(user.email !== email){
-        err.name = "人員信箱比對錯誤" 
-        return next(appError( 400,err,next,res));
+        return next(appError( 400,"人員信箱比對錯誤",next,res));
       }
-
       if (!password) {
-        err.name = "密碼不可為空" 
-        return next(appError( 400,err,next,res));
+        return next(appError( 400,"密碼不可為空",next,res));
       }
-
-      if(password!==newPassword){
-        err.name = "密碼不一致！"  
-        return next(appError(400,err,next,res));
+      // 密碼只能是英文OR數字
+      if(!validator.isAlphanumeric(password)){
+        return next(appError(400,"密碼只能包含英文或數字",next,res));
       }
-      if(!validator.isLength(newPassword,{min:6})){
-        err.name = "密碼字數低於 6 碼" 
-        return next(appError(400,err,next,res));
+      if(password!==confirmPassword){
+        return next(appError(400,"密碼不一致！",next,res));
       }
-      newPassword = await bcrypt.hash(newPassword,12);
+      if(!validator.isLength(confirmPassword,{min:6})){
+        return next(appError(400,"密碼字數低於 6 碼",next,res));
+      }
+      confirmPassword = await bcrypt.hash(confirmPassword,12);
  
-      let data = await User.findByIdAndUpdate(id,{password: newPassword},{ runValidators: true,new: true });
+      let data = await User.findByIdAndUpdate(id,{password: confirmPassword},{ runValidators: true,new: true });
       responseHandler(res,data,200);
     },
     getProfile : async (req,res,next) => {
@@ -103,6 +103,12 @@ const userService = {
     updateProfile : async (req,res,next) => {
       const id = req.user._id
       const user = await User.findOne({ _id: id });
+      if(!req.body.name.trim()){
+        return next(appError(400,"暱稱不得為空",next,res));
+      }
+      if(!validator.isLength(req.body.name,{min:2})){ 
+        return next(appError(400,"暱稱必須包含兩個字元",next,res));
+      }
       let newEdit ={
         sex : req.body.sex,
         name : req.body.name,
