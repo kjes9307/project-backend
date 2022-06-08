@@ -1,5 +1,6 @@
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const {ImgurClient} = require("imgur");
 const User = require('../model/userModel.js')
 const Post = require('../model/postsModel.js')
@@ -62,6 +63,9 @@ const userService = {
           return next(appError( 400,'帳號密碼不可為空',next,res));
         }
         const user = await User.findOne({ email }).select('+password');
+        if(!user){
+          return next(appError(400,'使用者信箱不存在',next,res));
+        }
         const auth = await bcrypt.compare(password, user.password);
         if(!auth){
           return next(appError(400,'您的密碼不正確',next,res));
@@ -251,6 +255,25 @@ const userService = {
           select: 'name'
         });
       responseHandler(res,data,200);
+    },
+    checkToken : async (req,res,next) =>{
+      let token;
+      if (
+        req.headers.authorization &&
+        req.headers.authorization.startsWith('Bearer')
+      ) {
+        token = req.headers.authorization.split(' ')[1];
+      }
+      if (!token) {
+        return next(appError(401,'你尚未登入！',next,res));
+      }
+  
+    // 驗證 token 正確性
+    const decoded = jwt.verify(token,process.env.JWT_SECRET)
+    
+    let data = {"isTokenValid" : true}
+      
+    responseHandler(res,data,200);
     }
 }
 

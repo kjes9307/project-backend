@@ -33,4 +33,6 @@ router.post('/unFollow',isAuth,asyncErrorHandler(userService.minusFollower))
 
 router.get('/getFollow',isAuth,asyncErrorHandler(userService.getFollower))
 
+router.post('/checkToken',asyncErrorHandler(userService.checkToken))
+
 module.exports = router
