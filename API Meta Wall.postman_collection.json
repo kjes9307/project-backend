@@ -1,0 +1,819 @@
+{
+	"url": "https://morning-ocean-14546.herokuapp.com",
+	"info": {
+		"_postman_id": "585151fd-1d14-48ac-9e9b-a6e579ecd185",
+		"name": "API Meta Wall",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9437318"
+	},
+	"item": [
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "APP Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/posts/?timeSort=asc&key=2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								""
+							],
+							"query": [
+								{
+									"key": "timeSort",
+									"value": "asc"
+								},
+								{
+									"key": "key",
+									"value": "2"
+								},
+								{
+									"key": "id",
+									"value": "6295ccd00017d95e00c5fbdb",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APP Get Single Post",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/posts/singlePost?key=62972ea67963838e63865baa",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"singlePost"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "62972ea67963838e63865baa"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APP POST",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\" : \"TEST~\",\r\n    \"tags\" : \"心情\",\r\n    \"type\" : \"group\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/posts",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APP Patch",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"eric\",\r\n    \"content\": \"1243\",\r\n    \"tags\" : [\"proveb\"],\r\n    \"type\" : \"group\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/posts/628116b7c614a30e0936c9d2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"628116b7c614a30e0936c9d2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APP Delete All",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/posts",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APP Delete one",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/posts/6281117758eab61c07ea7c46",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"6281117758eab61c07ea7c46"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APP ADD likes",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/posts/addlike/6295ccd00017d95e00c5fbdb",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"addlike",
+								"6295ccd00017d95e00c5fbdb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APP Delete likes",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/posts/deletelike/6295ccd00017d95e00c5fbdb",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"deletelike",
+								"6295ccd00017d95e00c5fbdb"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "APP Get Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/user/profile",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APP Patch Update Profile",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sex\": \"男性\",\r\n    \"name\": \"小老虎中的小老虎\",\r\n    \"photo\": \"https://i.imgur.com/JhstGJB.png\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/updateUser",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"updateUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "API Register ",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"33\",\r\n    \"password\": \"333333\",\r\n    \"confirmPassword\" : \"333333\",\r\n    \"email\" : \"tiger22@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "API Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"111111\",\r\n    \"newPassword\" : \"111111\",\r\n    \"email\" : \"tiger22@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/reset",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"reset"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "API Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Bearer",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"111111\",\r\n    \"email\" : \"333@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "API Upload",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "files",
+									"type": "file",
+									"src": "/C:/Users/user/Downloads/test.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/user/uploadImg",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"uploadImg"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APP Chat Send",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"to\" : \"6281e21843b0a3a5f7187d54\",\r\n    \"content\" : \"hi\",\r\n    \"read\":true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/chat/sendMsg",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"chat",
+								"sendMsg"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APP Get Like List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/user/getLikeList",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"getLikeList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APP Get User Post",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/user/getUserPost",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"getUserPost"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APP Check Token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"111@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/checkToken",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"checkToken"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "comment",
+			"item": [
+				{
+					"name": "APP Get User   Comment",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/posts/getComment/6295a352947d929f2d44c953",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"getComment",
+								"6295a352947d929f2d44c953"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APP ADD Comment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userComment\" : \"你看看你...\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/posts/comment/6295ccd00017d95e00c5fbdb",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"comment",
+								"6295ccd00017d95e00c5fbdb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APP Delete Comment",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/posts/delcomment/62976721f714e7664eef9635",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"delcomment",
+								"62976721f714e7664eef9635"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "track",
+			"item": [
+				{
+					"name": "APP Get TrackList",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/user/getTrackList",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"getTrackList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APP Get Follow",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							},
+							{
+								"key": "user",
+								"value": "629c7756eb9c2350a23eb90a",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{url}}/user/getFollow?_id=6283a064261ad96649ea9d05",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"getFollow"
+							],
+							"query": [
+								{
+									"key": "_id",
+									"value": "6283a064261ad96649ea9d05"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APP Track User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"followID\": {\"_id\" : \"6281e21843b0a3a5f7187d53\"}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/addTrack",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"addTrack"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APP Follow User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"followID\": {\"_id\" : \"6281e21843b0a3a5f7187d53\"}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/Follow",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"Follow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APP UnTrack User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"unfollowID\": {\"_id\" : \"6283a064261ad96649ea9d07\"}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/cancelTrack",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"cancelTrack"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APP UnFollow USER",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"unfollowID\": {\"_id\" : \"6281e21843b0a3a5f7187d53\"}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/unFollow",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"unFollow"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
