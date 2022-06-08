@@ -257,6 +257,7 @@ const userService = {
       responseHandler(res,data,200);
     },
     checkToken : async (req,res,next) =>{
+      const {email} = req.body
       let token;
       if (
         req.headers.authorization &&
@@ -269,9 +270,20 @@ const userService = {
       }
   
     // 驗證 token 正確性
-    const decoded = jwt.verify(token,process.env.JWT_SECRET)
-    
-    let data = {"isTokenValid" : true}
+      const decoded = await new Promise((resolve,reject)=>{
+        jwt.verify(token,process.env.JWT_SECRET,(err,payload)=>{
+          if(err){
+            reject(err)
+          }else{
+            resolve(payload)
+          }
+        })
+      })
+      const currentUserEmail = await User.findById(decoded.id).select("email")
+      if(currentUserEmail!==email){
+        return next(appError(401,'用戶信息不一致',next,res))
+      }
+      let data = {"isTokenValid" : true}
       
     responseHandler(res,data,200);
     }
