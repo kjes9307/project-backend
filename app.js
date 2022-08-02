@@ -11,6 +11,7 @@ require('./connect')
 dotenv.config({path :"./config.env"});
 const postRouter = require('./routes/posts');
 const userRouter = require('./routes/user');
+const taskRouter = require("./routes/task")
 const app = express();
 
 app.use(cors())
@@ -24,6 +25,7 @@ require('./util/exceptionHandle')
 // app.use('/', indexRouter);
 app.use('/posts', postRouter);
 app.use('/user', userRouter);
+app.use('/task',taskRouter);
 app.use('/api-doc',swaggerUI.serve,swaggerUI.setup(swaggerFile));
 
 app.use((req,res,next)=>{

@@ -257,7 +257,6 @@ const userService = {
       responseHandler(res,data,200);
     },
     checkToken : async (req,res,next) =>{
-      const {email} = req.body
       let token;
       if (
         req.headers.authorization &&
@@ -279,13 +278,8 @@ const userService = {
           }
         })
       })
-      const currentUserEmail = await User.findById(decoded.id).select("email")
-      if(currentUserEmail!==email){
-        return next(appError(401,'用戶信息不一致',next,res))
-      }
       let data = {"isTokenValid" : true}
-      
-    responseHandler(res,data,200);
+      responseHandler(res,data,200);
     }
 }
 
