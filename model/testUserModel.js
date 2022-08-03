@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const testUserSchema = new mongoose.Schema({
+const projSchema = new mongoose.Schema({
     id: {
       type: Number,
       cast: true
@@ -22,6 +22,6 @@ const testUserSchema = new mongoose.Schema({
     versionKey: false,
 });
 // User
-const testUser = mongoose.model('testUser', testUserSchema);
+const Proj = mongoose.model('testUser', projSchema);
 
-module.exports = testUser;
+module.exports = Proj;
