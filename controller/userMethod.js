@@ -267,7 +267,7 @@ const userService = {
       if (!token) {
         return next(appError(401,'你尚未登入！',next,res));
       }
-  
+      
     // 驗證 token 正確性
       const decoded = await new Promise((resolve,reject)=>{
         jwt.verify(token,process.env.JWT_SECRET,(err,payload)=>{

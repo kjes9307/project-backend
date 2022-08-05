@@ -16,6 +16,9 @@ const projSchema = new mongoose.Schema({
     organization:{
         type:String,
         cast:false
+    },
+    pin:{
+      type:Boolean
     }
     
   },{
