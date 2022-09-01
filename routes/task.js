@@ -7,5 +7,6 @@ const taskAPI = require('../controller/taskMethod')
 router.get('/project', asyncErrorHandler(taskAPI.projectData))
 router.get('/users', asyncErrorHandler(taskAPI.testUser))
 router.post('/addTask',asyncErrorHandler(taskAPI.addTask))
+router.patch('/editTask/:id',asyncErrorHandler(taskAPI.editTask))
 router.patch('/editPin/:id',asyncErrorHandler(taskAPI.editPin))
 module.exports = router;

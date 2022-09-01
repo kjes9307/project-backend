@@ -26,6 +26,16 @@ let taskService = {
         )
         responseHandler(res,resData,201);
     },
+    editTask : async (req,res,next) =>{
+            let edit = req.body;
+            let data = await Proj.findByIdAndUpdate(edit.id,{name: edit.name},{ runValidators: true,new: true });
+            if(data !== null){
+                responseHandler(res,data,200);
+            }else{
+                return next(appError("404","IdNotFound",next,res));
+            }
+    }
+    ,
     editPin : async (req,res,next)=>{
             let edit = req.body;
             let data = await Proj.findByIdAndUpdate(edit._id,{pin: edit.pin},{ runValidators: true,new: true });
