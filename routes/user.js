@@ -35,4 +35,7 @@ router.get('/getFollow',isAuth,asyncErrorHandler(userService.getFollower))
 
 router.post('/checkToken',asyncErrorHandler(userService.checkToken))
 
+router.get('/getUser',asyncErrorHandler(userService.getUserAll))
+
+
 module.exports = router

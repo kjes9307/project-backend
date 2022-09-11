@@ -6,10 +6,13 @@ const User = require('../model/userModel.js')
 const Post = require('../model/postsModel.js')
 const Track = require('../model/trackModel.js')
 const Follow = require('../model/followModel.js')
+const Proj = require('../model/testUserModel.js')
+
 const {tokenGenerator,appError,responseHandler} = require("../util/tool")
 const userService = {
     register : async(req,res,next) =>{
         let { email, password,confirmPassword,name } = req.body;
+        console.log(req.body)
         // 內容不可為空
         if(!email||!password||!confirmPassword||!name){
           return next(appError(400,"欄位未填寫正確！",next,res));
@@ -18,6 +21,11 @@ const userService = {
         const user = await User.findOne({ email }).select("+ email")
         if(user){
           return next(appError(400,"信箱已被註冊！",next,res));
+        }
+        // 暱稱已經被使用
+        const nameCheck = await User.find({name}).select("+ name")
+        if(nameCheck){
+          return next(appError(400,"暱稱已經被使用",next,res));
         }
         // 密碼正確
         if(password!==confirmPassword){
@@ -279,6 +287,11 @@ const userService = {
         })
       })
       let data = {"isTokenValid" : true}
+      responseHandler(res,data,200);
+    },
+    getUserAll: async(req,res,next) =>{
+      const data = await Proj.find().select("+ name")
+      console.log(data);
       responseHandler(res,data,200);
     }
 }
