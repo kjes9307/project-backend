@@ -53,6 +53,16 @@ let taskService = {
             }else{
                 return next(appError("404","IdNotFound",next,res));
             }
+    },
+    getTaskDetail : async (req,res,next)=>{
+        let {id: taskId } = req.body
+        let data = await Proj.find(taskId)
+        if(data !== null){
+            responseHandler(res,data,200);
+        }else{
+            return next(appError("404","IdNotFound",next,res));
+        }
+    
     }
 }
 

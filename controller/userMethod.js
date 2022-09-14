@@ -290,8 +290,7 @@ const userService = {
       responseHandler(res,data,200);
     },
     getUserAll: async(req,res,next) =>{
-      const data = await Proj.find().select("+ name")
-      console.log(data);
+      const data = await User.find().select("+ name")
       responseHandler(res,data,200);
     }
 }

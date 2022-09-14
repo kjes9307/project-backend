@@ -10,7 +10,7 @@ const projSchema = new mongoose.Schema({
         cast: false
     },
     personId: {
-        type: Number,
+        type: String,
         cast: true
     },
     organization:{
