@@ -13,4 +13,6 @@ router.patch('/editProject/:id',asyncErrorHandler(taskAPI.editProj))
 router.patch('/editPin/:id',asyncErrorHandler(taskAPI.editPin))
 
 router.get('/getKanBan',asyncErrorHandler(taskAPI.getKanBan))
+router.put('/statusSwitch',asyncErrorHandler(taskAPI.editStatus))
+
 module.exports = router;

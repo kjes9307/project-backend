@@ -13,6 +13,12 @@ const taskSchema = new mongoose.Schema({
         type: String,
         required: [true, 'task Name必填'],
         cast: false
+    },
+    status:{
+        type:String,
+        required: [true, '狀態必填'],
+        enum: ['ongoing', 'idle', 'done'],
+        cast: false
     }
   },{
     versionKey: false,

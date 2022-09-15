@@ -58,7 +58,19 @@ let taskService = {
     },
     getKanBan : async (req,res,next) =>{
         let {id} = req.body;
-        let data = await Kanban.find({projectId:id})
+        let data = await Kanban.find({projectId:id}).populate({
+            path:'alltask',
+            select:'taskName type status'
+        })
+        if(data !== null){
+            responseHandler(res,data,200);
+        }else{
+            return next(appError("404","IdNotFound",next,res));
+        }
+    },
+    editStatus : async (req,res,next) =>{
+        let {id,newStatus} = req.body;
+        let data = await Task.findByIdAndUpdate({_id:id},{status: newStatus},{ runValidators: true,new: true });
         if(data !== null){
             responseHandler(res,data,200);
         }else{

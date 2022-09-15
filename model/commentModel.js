@@ -24,6 +24,7 @@ const commentSchema = new mongoose.Schema(
     versionKey: false,
     }
 );
+// 有人用到find 且與collection有關
 commentSchema.pre(/^find/, function(next) {
   this.populate({
     path: 'user',

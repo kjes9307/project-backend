@@ -5,27 +5,21 @@ const kanbanSchema = new mongoose.Schema({
         type: String,
         cast: false
     },
-    idle: [
+    alltask: [
       {
-        type: String,
-        cast: false
+        ref:"task",
+        type: mongoose.Schema.ObjectId
       }
     ],
-    ongo: [
-      {
-        type: String,
-        cast: false
-      }
-    ],
-    done: [
-      {
-        type: String,
-        cast: false
-      }
-    ]
+    createdAt :{
+      type: Date,
+      default: Date.now,
+      select: false
+    }
   },{
     versionKey: false,
-    collection: 'kanban'
+    collection: 'kanban',
+    // timestamps:true
 });
 const Kanban = mongoose.model('kanban', kanbanSchema);
 
