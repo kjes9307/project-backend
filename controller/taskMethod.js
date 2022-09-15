@@ -57,7 +57,8 @@ let taskService = {
             }
     },
     getKanBan : async (req,res,next) =>{
-        let {id} = req.body;
+        let {id} = req.params;
+        
         let data = await Kanban.find({projectId:id}).populate({
             path:'alltask',
             select:'taskName type status'
