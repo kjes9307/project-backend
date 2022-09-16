@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const kanbanSchema = new mongoose.Schema({
     projectId: {
         type: String,
-        cast: false
+        cast: false,
+        required: [true,'project id 不正確!']
     },
     alltask: [
       {
@@ -11,7 +12,12 @@ const kanbanSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId
       }
     ],
-    createdAt :{
+    kanbanName:{
+      type: String,
+      cast:false,
+      required: [true,'kanban name必填!']
+    },
+    createAt :{
       type: Date,
       default: Date.now,
       select: false

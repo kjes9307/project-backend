@@ -62,12 +62,24 @@ let taskService = {
         let data = await Kanban.find({projectId:id}).populate({
             path:'alltask',
             select:'taskName type status'
-        })
+        }).sort("createAt")
         if(data !== null){
             responseHandler(res,data,200);
         }else{
             return next(appError("404","IdNotFound",next,res));
         }
+    },
+    addKanBan : async (req,res,next) =>{
+        let addKanban = req.body;
+        let data = await Kanban.create({...addKanban})
+        responseHandler(res,data,200);
+
+    },
+    addTask : async (req,res,next) =>{
+        let addTask = req.body;
+        let data = await Task.create({...addTask})
+        responseHandler(res,data,200);
+
     },
     editStatus : async (req,res,next) =>{
         let {id,newStatus} = req.body;
