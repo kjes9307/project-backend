@@ -58,11 +58,18 @@ let taskService = {
     },
     getKanBan : async (req,res,next) =>{
         let {id} = req.params;
-        
+        let obj = req.query;
+        let searchParam = {match : obj}
+        let baseConfig = {path:'alltask',select:'taskName type status'}
+        let findConfig = {...baseConfig,...searchParam}
         let data = await Kanban.find({projectId:id}).populate({
             path:'alltask',
-            select:'taskName type status'
-        }).sort("createAt")
+            select:'taskName type status taskCreator'
+        }).populate({
+            path: 'creator',
+            select: 'name'
+        })
+        .sort("createAt")
         if(data !== null){
             responseHandler(res,data,200);
         }else{
