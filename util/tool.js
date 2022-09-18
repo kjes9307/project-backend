@@ -84,7 +84,7 @@ const errorResponseDEV = (error,res) => {
         isDefineError
     })
 }
-const tokenGenerator= (user,statusCode,res)=>{
+const tokenGenerator= (user,statusCode)=>{
     // 產生 JWT token
     const token = jwt.sign({id:user._id},process.env.JWT_SECRET,{
       expiresIn: process.env.JWT_EXPIRES_DAY
@@ -97,9 +97,20 @@ const tokenGenerator= (user,statusCode,res)=>{
         photo: user.photo,
         id: user._id
     }
-    responseHandler(res,resData,statusCode)
+    return [resData,statusCode]
   }
-
+const tokenChecker = async(token) =>{
+    return await new Promise((resolve,reject)=>{
+        jwt.verify(token,process.env.JWT_SECRET,(err,payload)=>{
+          if(err){
+            console.log(err)
+            reject(err)
+          }else{
+            resolve(payload)
+          }
+        })
+    })
+}
 module.exports = {
     asyncErrorHandler,
     responseHandler,
@@ -107,5 +118,6 @@ module.exports = {
     errorResponseDEV,
     checkInput,
     appError,
-    tokenGenerator
+    tokenGenerator,
+    tokenChecker
 };

@@ -1,6 +1,6 @@
 const express = require('express');
 const {asyncErrorHandler} = require('../util/tool');
-// const isAuth = require("../util/auth")
+const isAuth = require("../util/auth")
 const router = express.Router();
 const taskAPI = require('../controller/taskMethod')
 
@@ -12,7 +12,7 @@ router.post('/addProject',asyncErrorHandler(taskAPI.addProj))
 router.patch('/editProject/:id',asyncErrorHandler(taskAPI.editProj))
 router.patch('/editPin/:id',asyncErrorHandler(taskAPI.editPin))
 
-router.get('/getKanBan/:id',asyncErrorHandler(taskAPI.getKanBan))
+router.get('/getKanBan/:id/Event',asyncErrorHandler(taskAPI.getKanBan))
 router.put('/statusSwitch',asyncErrorHandler(taskAPI.editStatus))
 router.post('/addKanBan',asyncErrorHandler(taskAPI.addKanBan))
 router.post('/addTask',asyncErrorHandler(taskAPI.addTask))

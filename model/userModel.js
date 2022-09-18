@@ -28,6 +28,11 @@ const userSchema = new mongoose.Schema({
       select: false,
       cast: false
     },
+    token:{
+      type: String,
+      select: false,
+      cast: false
+    },
     createdAt: {
       type: Date,
       default: Date.now,

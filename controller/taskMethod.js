@@ -2,7 +2,7 @@ const Proj = require('../model/testUserModel.js')
 const userProject = require('../model/projectModel.js')
 const Task = require('../model/taskModel.js')
 const Kanban = require('../model/kanbanModel.js')
-const {tokenGenerator,appError,responseHandler} = require("../util/tool")
+const {appError,responseHandler} = require("../util/tool")
 
 let taskService = {
     projectData: async(req,res,next)=>{
@@ -58,14 +58,10 @@ let taskService = {
     },
     getKanBan : async (req,res,next) =>{
         let {id} = req.params;
-        let obj = req.query;
-        let searchParam = {match : obj}
-        let baseConfig = {path:'alltask',select:'taskName type status'}
-        let findConfig = {...baseConfig,...searchParam}
-        let data = await Kanban.find({projectId:id}).populate({
-            path:'alltask',
-            select:'taskName type status taskCreator'
-        }).populate({
+        let searchParam = req.query ? {match : req.query}: {};
+        let baseConfig = {path:'alltask',select:'taskName type status taskCreator'}
+        let config_1 = {...baseConfig,...searchParam}
+        let data = await Kanban.find({projectId:id}).populate(config_1).populate({
             path: 'creator',
             select: 'name'
         })
@@ -78,8 +74,11 @@ let taskService = {
     },
     addKanBan : async (req,res,next) =>{
         let addKanban = req.body;
-        let data = await Kanban.create({...addKanban})
-        responseHandler(res,data,200);
+        // let creator = req.user._id;
+        // let newKanban = {...addKanban,creator}
+        console.log(addKanban,req.headers)
+        // let data = await Kanban.create(newKanban)
+        // responseHandler(res,[],200);
 
     },
     addTask : async (req,res,next) =>{

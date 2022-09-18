@@ -6,7 +6,7 @@ const User = require('../model/userModel.js')
 const Post = require('../model/postsModel.js')
 const Track = require('../model/trackModel.js')
 const Follow = require('../model/followModel.js')
-const Proj = require('../model/testUserModel.js')
+const {tokenChecker} = require('../util/tool')
 
 const {tokenGenerator,appError,responseHandler} = require("../util/tool")
 const userService = {
@@ -70,7 +70,7 @@ const userService = {
         if (!email || !password) {
           return next(appError( 400,'帳號密碼不可為空',next,res));
         }
-        const user = await User.findOne({ email }).select('+password');
+        const user = await User.findOne({ email }).select('+password +token');
         if(!user){
           return next(appError(400,'使用者信箱不存在',next,res));
         }
@@ -78,7 +78,34 @@ const userService = {
         if(!auth){
           return next(appError(400,'您的密碼不正確',next,res));
         }
-        tokenGenerator(user,200,res);
+        
+       const [resData,statusCode] = tokenGenerator(user,200);
+       let bcrypt_token
+      bcrypt_token = await bcrypt.hash(resData.token,12);
+      await User.findByIdAndUpdate({_id: resData.id},{token: bcrypt_token},{ runValidators: true,new: true })
+       
+       
+
+       responseHandler(res,resData,statusCode)
+
+    },
+    checkToken : async (req,res,next) =>{
+      let id = req.body.userId
+      let token;
+      if (
+        req.headers.authorization &&
+        req.headers.authorization.startsWith('Bearer')
+      ) {
+        token = req.headers.authorization.split(' ')[1];
+      }
+      if (!token) {
+        return next(appError(401,'你尚未登入！',next,res));
+      }
+      
+    // 驗證 token 正確性
+    await tokenChecker(token)
+    let data = {"isTokenValid" : true}
+    responseHandler(res,data,200);
     },
     resetPassWord : async (req,res,next) => {
       let {password,newPassword,email} = req.body;
@@ -262,31 +289,6 @@ const userService = {
           path: 'follower',
           select: 'name'
         });
-      responseHandler(res,data,200);
-    },
-    checkToken : async (req,res,next) =>{
-      let token;
-      if (
-        req.headers.authorization &&
-        req.headers.authorization.startsWith('Bearer')
-      ) {
-        token = req.headers.authorization.split(' ')[1];
-      }
-      if (!token) {
-        return next(appError(401,'你尚未登入！',next,res));
-      }
-      
-    // 驗證 token 正確性
-      const decoded = await new Promise((resolve,reject)=>{
-        jwt.verify(token,process.env.JWT_SECRET,(err,payload)=>{
-          if(err){
-            reject(err)
-          }else{
-            resolve(payload)
-          }
-        })
-      })
-      let data = {"isTokenValid" : true}
       responseHandler(res,data,200);
     },
     getUserAll: async(req,res,next) =>{
