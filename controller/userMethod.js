@@ -90,7 +90,7 @@ const userService = {
 
     },
     checkToken : async (req,res,next) =>{
-      let id = req.body.userId
+      let {userid} = req.body;
       let token;
       if (
         req.headers.authorization &&
@@ -104,8 +104,17 @@ const userService = {
       
     // 驗證 token 正確性
     await tokenChecker(token)
-    let data = {"isTokenValid" : true}
-    responseHandler(res,data,200);
+    const data = await User.findById({ _id:userid}).select("email name photo sex")
+    let resData = {
+      email:data.email,
+      name:data.name,
+      photo:data.photo,
+      sex:data.sex,
+      token,
+      id: data._id
+    }
+    console.log(resData)
+    responseHandler(res,resData,200);
     },
     resetPassWord : async (req,res,next) => {
       let {password,newPassword,email} = req.body;

@@ -65,11 +65,11 @@ const errorResponse = (error,res) => {
     if(isDefineError){
         res.status(statusCode).json({
             status : statusCode,
-            msg : name
+            message : name
         })
     }else{
         res.json({
-            "msg":"undefined error, please contact admin"
+            "message":"undefined error, please contact admin"
         })
     }
 }
@@ -79,7 +79,7 @@ const errorResponseDEV = (error,res) => {
     statusCode = statusCode || 500;
     res.status(statusCode).json({
         stack,
-        msg: message,
+        message,
         name,
         isDefineError
     })
