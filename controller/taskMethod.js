@@ -74,16 +74,35 @@ let taskService = {
     },
     addKanBan : async (req,res,next) =>{
         let addKanban = req.body;
-        // let creator = req.user._id;
-        // let newKanban = {...addKanban,creator}
-        console.log(addKanban,req.headers)
-        // let data = await Kanban.create(newKanban)
-        // responseHandler(res,[],200);
+        let creator = req.user._id;
+        let newKanban = {...addKanban,creator}
+        let data = await Kanban.create(newKanban)
+        responseHandler(res,data,200);
+
+    },
+    editKanBan : async (req,res,next) =>{
+        let newTaskInfo = req.body;
+        let creator = req.user._id;
+        let newTask = {...newTaskInfo,creator}
+        let data = await Kanban.findByIdAndUpdate(newTask)
+        responseHandler(res,data,200);
 
     },
     addTask : async (req,res,next) =>{
-        let addTask = req.body;
+        let {kanbanId,projectId,taskName} = req.body;
+        let addTask ={
+            status: "idle",
+            taskName,
+            projectId,
+            taskCreator: req.user._id
+        }
         let data = await Task.create({...addTask})
+
+        await Kanban.findOneAndUpdate(
+            { _id:kanbanId},
+            { $addToSet: { alltask: data._id } },
+            { runValidators: true,new: true }
+        )
         responseHandler(res,data,200);
 
     },
