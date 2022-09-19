@@ -58,6 +58,9 @@ let taskService = {
     },
     getKanBan : async (req,res,next) =>{
         let {id} = req.params;
+        if(req.query && req.query.taskName){
+            Object.keys(req.query).map(x=> req.query[x] = new RegExp(req.query[x]))
+        }
         let searchParam = req.query ? {match : req.query}: {};
         let baseConfig = {path:'alltask',select:'taskName type status taskCreator'}
         let config_1 = {...baseConfig,...searchParam}
@@ -77,6 +80,13 @@ let taskService = {
         let creator = req.user._id;
         let newKanban = {...addKanban,creator}
         let data = await Kanban.create(newKanban)
+        responseHandler(res,data,200);
+
+    },
+    deleteKanBan : async (req,res,next) =>{
+        let {id} = req.params;
+        console.log(id)
+        let data = await Kanban.findByIdAndDelete(id)
         responseHandler(res,data,200);
 
     },
@@ -103,6 +113,30 @@ let taskService = {
             { $addToSet: { alltask: data._id } },
             { runValidators: true,new: true }
         )
+        responseHandler(res,data,200);
+
+    },
+    deleteTask : async (req,res,next) =>{
+        let {id} = req.params;
+        let data = await Task.findByIdAndDelete(id)
+        responseHandler(res,data,200);
+    },
+    editTask : async (req,res,next) =>{
+        let {taskId,taskName,status} = req.body;
+        let editTask ={
+            status : status || "idle",
+            taskName,
+            taskId,
+        }
+        console.log(editTask)
+        let data = await Task.findByIdAndUpdate({_id:taskId},{...editTask},{ runValidators: true,new: true })
+
+        responseHandler(res,data,200);
+
+    },
+    getTask : async (req,res,next) =>{
+        let {id} = req.params;
+        let data = await Task.findById({_id:id})
         responseHandler(res,data,200);
 
     },
