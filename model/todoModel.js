@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
 
 const todoSchema = new mongoose.Schema({
-    type: {
-      type: String,
-      enum:['idle','done'],
+    done: {
+      type: Boolean,
       required: [true, 'list 類型不正確'],
-      cast: false
+      cast: true
     },
-    item:{
+    name:{
       type: String,
       cast:false,
       required: [true,'List name必填!']

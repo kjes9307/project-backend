@@ -139,7 +139,7 @@ let taskService = {
         let {id} = req.params;
         let data = await Task.findById({_id:id}).populate({
             path: 'taskTodoList',
-            select: 'item type'
+            select: 'name done'
         })
         responseHandler(res,data,200);
 
