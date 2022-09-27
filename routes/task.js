@@ -23,5 +23,6 @@ router.delete('/deleteTask/:id',isAuth,asyncErrorHandler(taskAPI.deleteTask))
 router.get('/getTask/:id',asyncErrorHandler(taskAPI.getTask))
 
 router.post('/addTodo/:id',asyncErrorHandler(taskAPI.addList))
+router.patch('/editTodo',asyncErrorHandler(taskAPI.editList))
 
 module.exports = router;

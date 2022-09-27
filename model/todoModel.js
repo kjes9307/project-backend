@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const todoSchema = new mongoose.Schema({
     done: {
       type: Boolean,
-      required: [true, 'list 類型不正確'],
       cast: true
     },
     name:{

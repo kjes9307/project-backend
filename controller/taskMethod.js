@@ -166,7 +166,18 @@ let taskService = {
         if(data !== null){
             responseHandler(res,data,200);
         }else{
-            return next(appError("404","modal IdNotFound",next,res));
+            return next(appError("404","error occurs when user adds item",next,res));
+        }
+    },
+    editList: async (req,res,next) =>{
+        let {_id} = req.body;
+        let editList = req.body
+        let data = await TodoList.findByIdAndUpdate({_id},{...editList},{ runValidators: true,new: true })
+
+        if(data !== null){
+            responseHandler(res,data,200);
+        }else{
+            return next(appError("404","error occurs when user edits item",next,res));
         }
     } 
 }
