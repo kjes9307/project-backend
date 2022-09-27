@@ -2,6 +2,7 @@ const Proj = require('../model/testUserModel.js')
 const userProject = require('../model/projectModel.js')
 const Task = require('../model/taskModel.js')
 const Kanban = require('../model/kanbanModel.js')
+const TodoList = require('../model/todoModel.js')
 const {appError,responseHandler} = require("../util/tool")
 
 let taskService = {
@@ -136,7 +137,10 @@ let taskService = {
     },
     getTask : async (req,res,next) =>{
         let {id} = req.params;
-        let data = await Task.findById({_id:id})
+        let data = await Task.findById({_id:id}).populate({
+            path: 'taskTodoList',
+            select: 'item type'
+        })
         responseHandler(res,data,200);
 
     },
@@ -148,7 +152,23 @@ let taskService = {
         }else{
             return next(appError("404","IdNotFound",next,res));
         }
-    }
+    },
+    addList: async (req,res,next) =>{
+        let {id} = req.params;
+        let addList = req.body
+        let data = await TodoList.create({...addList})
+
+        await Task.findOneAndUpdate(
+            { _id:id},
+            { $addToSet: { taskTodoList: data._id } },
+            { runValidators: true,new: true }
+        )
+        if(data !== null){
+            responseHandler(res,data,200);
+        }else{
+            return next(appError("404","modal IdNotFound",next,res));
+        }
+    } 
 }
 
 module.exports =  taskService

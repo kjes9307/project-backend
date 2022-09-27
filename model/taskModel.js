@@ -26,6 +26,12 @@ const taskSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
       required : [true,'創建人必填']
     },
+    taskTodoList :[
+      {
+        ref:"todo",
+        type: mongoose.Schema.ObjectId
+      }
+   ],
     createAt :{
       type: Date,
       default: Date.now,

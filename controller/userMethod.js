@@ -113,7 +113,6 @@ const userService = {
       token,
       id: data._id
     }
-    console.log(resData)
     responseHandler(res,resData,200);
     },
     resetPassWord : async (req,res,next) => {
