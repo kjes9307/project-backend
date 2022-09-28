@@ -39,7 +39,9 @@ const taskSchema = new mongoose.Schema({
     }
   },{
     versionKey: false,
-    collection: 'task'
+    collection: 'task',
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 });
 taskSchema.pre(/^find/, function(next) {
     this.populate({
@@ -48,7 +50,13 @@ taskSchema.pre(/^find/, function(next) {
     });
   
     next();
-  });
+});
+
+taskSchema.virtual('comments', {
+  ref: 'TaskComment',
+  foreignField: 'task',
+  localField: '_id'
+});
 const Task = mongoose.model('task', taskSchema);
 
 module.exports = Task;

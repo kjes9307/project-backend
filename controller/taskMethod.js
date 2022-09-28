@@ -3,6 +3,7 @@ const userProject = require('../model/projectModel.js')
 const Task = require('../model/taskModel.js')
 const Kanban = require('../model/kanbanModel.js')
 const TodoList = require('../model/todoModel.js')
+const TaskComment = require('../model/taskCommentModel.js')
 const {appError,responseHandler,cleanObject} = require("../util/tool")
 
 let taskService = {
@@ -137,6 +138,10 @@ let taskService = {
         let data = await Task.findById({_id:id}).populate({
             path: 'taskTodoList',
             select: 'name done tab'
+        })
+        .populate({
+            path:"comments",
+            select:"id user -task comment"
         })
         responseHandler(res,data,200);
 

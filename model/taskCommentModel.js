@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const taskCommentSchema = new mongoose.Schema(
   {
-    taskComment: {
+    comment: {
       type: String,
       required: [true, 'comment can not be empty!']
     },
@@ -15,10 +15,10 @@ const taskCommentSchema = new mongoose.Schema(
       ref: 'user',
       require: ['true', 'user must exist']
     },
-    post: {
+    task: {
       type: mongoose.Schema.ObjectId,
       ref: 'task',
-      require: ['true', 'comment must belong to a post.']
+      require: ['true', 'comment must belong to a task.']
     }
   },{
     versionKey: false,
@@ -33,6 +33,6 @@ taskCommentSchema.pre(/^find/, function(next) {
 
   next();
 });
-const taskComment = mongoose.model('Comment', taskCommentSchema);
+const TaskComment = mongoose.model('TaskComment', taskCommentSchema);
 
-module.exports = taskComment;
+module.exports = TaskComment;
