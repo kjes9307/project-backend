@@ -111,6 +111,19 @@ const tokenChecker = async(token) =>{
         })
     })
 }
+const isVoid = (value) =>
+  value === undefined || value === null || value === "";
+
+const cleanObject = (object) => {
+    const result = { ...object };
+    Object.keys(result).forEach((key) => {
+      const value = result[key];
+      if (isVoid(value)) {
+        delete result[key];
+      }
+    });
+    return result;
+  };
 module.exports = {
     asyncErrorHandler,
     responseHandler,
@@ -119,5 +132,6 @@ module.exports = {
     checkInput,
     appError,
     tokenGenerator,
-    tokenChecker
+    tokenChecker,
+    cleanObject
 };

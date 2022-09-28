@@ -3,7 +3,7 @@ const userProject = require('../model/projectModel.js')
 const Task = require('../model/taskModel.js')
 const Kanban = require('../model/kanbanModel.js')
 const TodoList = require('../model/todoModel.js')
-const {appError,responseHandler} = require("../util/tool")
+const {appError,responseHandler,cleanObject} = require("../util/tool")
 
 let taskService = {
     projectData: async(req,res,next)=>{
@@ -123,17 +123,14 @@ let taskService = {
         responseHandler(res,data,200);
     },
     editTask : async (req,res,next) =>{
-        let {taskId,taskName,status} = req.body;
+        let {taskId,taskName,status,type} = req.body;
         let editTask ={
-            status : status || "idle",
+            status : status,
+            type: type || 0,
             taskName,
-            taskId,
         }
-        console.log(editTask)
-        let data = await Task.findByIdAndUpdate({_id:taskId},{...editTask},{ runValidators: true,new: true })
-
+        let data = await Task.findByIdAndUpdate({_id:taskId},{...cleanObject(editTask)},{ runValidators: true,new: true })
         responseHandler(res,data,200);
-
     },
     getTask : async (req,res,next) =>{
         let {id} = req.params;

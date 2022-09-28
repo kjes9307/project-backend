@@ -7,7 +7,7 @@ const taskSchema = new mongoose.Schema({
         required: [true, 'project id必填'],
     },
     type:{
-        type: String,
+        type: Number,
         cast: false
     },
     taskName:{
