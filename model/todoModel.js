@@ -10,6 +10,9 @@ const todoSchema = new mongoose.Schema({
       cast:false,
       required: [true,'List name必填!']
     },
+    tab:{
+      type: String
+    }
   },{
     versionKey: false,
     collection: 'todo',

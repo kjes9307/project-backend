@@ -139,7 +139,7 @@ let taskService = {
         let {id} = req.params;
         let data = await Task.findById({_id:id}).populate({
             path: 'taskTodoList',
-            select: 'name done'
+            select: 'name done tab'
         })
         responseHandler(res,data,200);
 
@@ -178,6 +178,16 @@ let taskService = {
             responseHandler(res,data,200);
         }else{
             return next(appError("404","error occurs when user edits item",next,res));
+        }
+    },
+    delList: async (req,res,next) =>{
+        let {_id} = req.body;
+        let data = await TodoList.findByIdAndDelete({_id})
+
+        if(data !== null){
+            responseHandler(res,data,200);
+        }else{
+            return next(appError("404","error occurs when user delete item",next,res));
         }
     } 
 }
