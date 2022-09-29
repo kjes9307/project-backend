@@ -191,7 +191,46 @@ let taskService = {
         }else{
             return next(appError("404","error occurs when user delete item",next,res));
         }
-    } 
+    },
+    editComment: async (req,res,next) =>{
+        let {postid,comment} = req.body
+       
+        let editComment = {
+            comment
+        }
+        let data = await TaskComment.findByIdAndUpdate({_id:postid},{...editComment},{ runValidators: true,new: true })
+        if(data !== null){
+            responseHandler(res,data,200);
+        }else{
+            return next(appError("404","error occurs when user edit comment",next,res));
+        }
+    },
+    addComment: async (req,res,next) =>{
+        let user = req.user._id
+        let {task,comment} = req.body
+       
+        let addComment = {
+            comment,
+            user,
+            task
+        }
+        let data = await TaskComment.create({...addComment})
+        if(data !== null){
+            responseHandler(res,data,200);
+        }else{
+            return next(appError("404","error occurs when user edit comment",next,res));
+        }
+    },
+    deleteComment: async (req,res,next) =>{
+        let {postid} = req.body
+       
+        let data = await TaskComment.findByIdAndDelete({_id:postid})
+        if(data !== null){
+            responseHandler(res,data,200);
+        }else{
+            return next(appError("404","error occurs when user edit comment",next,res));
+        }
+    }
 }
 
 module.exports =  taskService

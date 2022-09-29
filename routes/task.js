@@ -26,5 +26,8 @@ router.post('/addTodo/:id',asyncErrorHandler(taskAPI.addList))
 router.patch('/editTodo',asyncErrorHandler(taskAPI.editList))
 router.delete('/deleteTodo',asyncErrorHandler(taskAPI.delList))
 
+router.patch('/editComment',isAuth,asyncErrorHandler(taskAPI.editComment))
+router.post('/addComment',isAuth,asyncErrorHandler(taskAPI.addComment))
+router.delete('/deleteComment',isAuth,asyncErrorHandler(taskAPI.deleteComment))
 
 module.exports = router;

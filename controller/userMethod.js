@@ -24,7 +24,7 @@ const userService = {
         }
         // 暱稱已經被使用
         const nameCheck = await User.find({name}).select("+ name")
-        if(nameCheck){
+        if(nameCheck.length !==0){
           return next(appError(400,"暱稱已經被使用",next,res));
         }
         // 密碼正確

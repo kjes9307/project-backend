@@ -22,7 +22,9 @@ const taskCommentSchema = new mongoose.Schema(
     }
   },{
     versionKey: false,
-    collection: "taskcomment"
+    collection: "taskcomment",
+    timestamps: true
+
     }
 );
 taskCommentSchema.pre(/^find/, function(next) {
