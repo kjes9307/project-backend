@@ -300,7 +300,9 @@ const userService = {
       responseHandler(res,data,200);
     },
     getUserAll: async(req,res,next) =>{
-      const data = await User.find().select("+ name")
+      let key = req.query.q !== undefined ? {"name": new RegExp(req.query.q)} : {}; 
+
+      const data = await User.find(key).select("name photo")
       responseHandler(res,data,200);
     }
 }
