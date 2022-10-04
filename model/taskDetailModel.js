@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 
 const taskdetailSchema = new mongoose.Schema({
     projectId: {
-        type: String,
-        cast: false,
+        type: mongoose.Schema.ObjectId,
         required: [true, 'project id必填'],
     },
     member :[
