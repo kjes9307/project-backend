@@ -30,4 +30,8 @@ router.patch('/editComment',isAuth,asyncErrorHandler(taskAPI.editComment))
 router.post('/addComment',isAuth,asyncErrorHandler(taskAPI.addComment))
 router.delete('/deleteComment',isAuth,asyncErrorHandler(taskAPI.deleteComment))
 
+router.post('/addMember',asyncErrorHandler(taskAPI.addTaskMember))
+router.get('/getMember/:id',asyncErrorHandler(taskAPI.getTaskMember))
+router.delete('/delMember',asyncErrorHandler(taskAPI.delTaskMember))
+
 module.exports = router;

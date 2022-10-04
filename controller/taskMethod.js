@@ -4,6 +4,7 @@ const Task = require('../model/taskModel.js')
 const Kanban = require('../model/kanbanModel.js')
 const TodoList = require('../model/todoModel.js')
 const TaskComment = require('../model/taskCommentModel.js')
+const Taskdetail = require('../model/taskDetailModel.js')
 const {appError,responseHandler,cleanObject} = require("../util/tool")
 
 let taskService = {
@@ -229,6 +230,56 @@ let taskService = {
             responseHandler(res,data,200);
         }else{
             return next(appError("404","error occurs when user edit comment",next,res));
+        }
+    },
+    getTaskMember: async (req,res,next) =>{
+        let {id} = req.params;
+        let data = await Taskdetail.find({projectId:id}).populate({
+            path:"member",
+            select:"_id name photo"
+        })
+        if(data !== null){
+            responseHandler(res,data,200);
+        }else{
+            return next(appError("404","error occurs when get team member",next,res));
+        }
+    },
+    addTaskMember: async (req,res,next) =>{
+        let {projectId,userId} = req.body
+        let memberId = userId
+
+        // 被追蹤 表示+1
+        let data;
+        let isCreated = await Taskdetail.find({projectId});
+        if(isCreated.length ===0){
+        data = await Taskdetail.create({
+            projectId,
+            member: [memberId]
+        })
+        }else{
+        data = await Taskdetail.findOneAndUpdate(
+            { projectId},
+            { $addToSet: { member: memberId } },
+            { runValidators: true,new: true }
+        )
+        }
+        if(data !== null){
+            responseHandler(res,data,200);
+        }else{
+            return next(appError("404","error occurs when get team member",next,res));
+        }
+    },
+    delTaskMember: async (req,res,next) =>{
+        let {projectId,userId} = req.body
+        let data = await Taskdetail.findOneAndUpdate(
+            { projectId},
+            { $pull: { member: userId } },
+            { runValidators: true,new: true }
+        )
+        if(data !== null){
+            responseHandler(res,data,200);
+        }else{
+            return next(appError("404","error occurs when get team member",next,res));
         }
     }
 }
