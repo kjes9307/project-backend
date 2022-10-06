@@ -5,6 +5,7 @@ const Kanban = require('../model/kanbanModel.js')
 const TodoList = require('../model/todoModel.js')
 const TaskComment = require('../model/taskCommentModel.js')
 const Taskdetail = require('../model/taskDetailModel.js')
+const ImageStore = require("../model/imageModel.js")
 const {appError,responseHandler,cleanObject} = require("../util/tool")
 
 let taskService = {
@@ -274,6 +275,55 @@ let taskService = {
         let data = await Taskdetail.findOneAndUpdate(
             { projectId},
             { $pull: { member: userId } },
+            { runValidators: true,new: true }
+        )
+        if(data !== null){
+            responseHandler(res,data,200);
+        }else{
+            return next(appError("404","error occurs when get team member",next,res));
+        }
+    },
+    addPhoto: async (req,res,next) =>{
+        let {projectId,img_url} = req.body
+        console.log(req.body)
+        if(!img_url) return next(appError("404","image_url missing",next,res));
+        // 被追蹤 表示+1
+        let data;
+        let isCreated = await ImageStore.find({projectId});
+        if(isCreated.length ===0){
+            data = await ImageStore.create({
+                projectId,
+                images:[img_url]
+            })
+        }else{
+            data = await ImageStore.findOneAndUpdate(
+                { projectId},
+                { $addToSet: { images: img_url } },
+                { runValidators: true,new: true }
+            )
+        }
+        if(data !== null){
+            responseHandler(res,data,200);
+        }else{
+            return next(appError("404","error occurs when add image_url",next,res));
+        }
+    },
+    getTaskPhoto: async (req,res,next) =>{
+        let {id} = req.params;
+        let data = await ImageStore.find({projectId:id})
+        if(data !== null){
+            responseHandler(res,data,200);
+        }else{
+            return next(appError("404","error occurs when get task photo",next,res));
+        }
+    },
+    delPhoto: async (req,res,next) =>{
+        let {projectId,img_url} = req.body
+        if(!img_url) return next(appError("404","image_url missing",next,res));
+
+        let data = await ImageStore.findOneAndUpdate(
+            { projectId},
+            { $pull: { images: img_url } },
             { runValidators: true,new: true }
         )
         if(data !== null){

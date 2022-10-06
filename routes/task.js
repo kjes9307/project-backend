@@ -34,4 +34,9 @@ router.post('/addMember',asyncErrorHandler(taskAPI.addTaskMember))
 router.get('/getMember/:id',asyncErrorHandler(taskAPI.getTaskMember))
 router.delete('/delMember',asyncErrorHandler(taskAPI.delTaskMember))
 
+router.post('/addPhoto',asyncErrorHandler(taskAPI.addPhoto))
+router.get('/getPhoto/:id',asyncErrorHandler(taskAPI.getTaskPhoto))
+router.delete('/delPhoto',asyncErrorHandler(taskAPI.delPhoto))
+
+
 module.exports = router;
