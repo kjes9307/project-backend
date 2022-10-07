@@ -29,8 +29,11 @@ let taskService = {
     },
     addProj:async(req,res,next) =>{
         let addTask = req.body
-        console.log(addTask)
-        let resData = await Proj.create({name:addTask.name})
+        if(!addTask){
+            return next(appError("404","Name Not Found",next,res));
+        }
+        const personId = req.user.id;
+        let resData = await Proj.create({name:addTask.name,personId})
         responseHandler(res,resData,201);
     },
     editProj : async (req,res,next) =>{

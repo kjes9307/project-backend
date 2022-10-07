@@ -8,8 +8,8 @@ router.get('/project', asyncErrorHandler(taskAPI.projectData))
 router.get('/project/:id', asyncErrorHandler(taskAPI.getProjectDetail))
 router.get('/users', asyncErrorHandler(taskAPI.testUser))
 
-router.post('/addProject',asyncErrorHandler(taskAPI.addProj))
-router.patch('/editProject/:id',asyncErrorHandler(taskAPI.editProj))
+router.post('/addProject',isAuth,asyncErrorHandler(taskAPI.addProj))
+router.patch('/editProject/:id',isAuth,asyncErrorHandler(taskAPI.editProj))
 router.delete('/deleteProject/:id',asyncErrorHandler(taskAPI.deleteProj))
 router.patch('/editPin/:id',asyncErrorHandler(taskAPI.editPin))
 
