@@ -47,6 +47,9 @@ let taskService = {
     }
     ,deleteProj : async (req,res,next) =>{
         let {id} = req.params;
+        if(!id){
+            return next(appError("404","Id Not Found",next,res));
+        }
         let data = await Proj.findByIdAndDelete(id);
         if(data !== null){
             responseHandler(res,data,200);

@@ -10,7 +10,7 @@ router.get('/users', asyncErrorHandler(taskAPI.testUser))
 
 router.post('/addProject',isAuth,asyncErrorHandler(taskAPI.addProj))
 router.patch('/editProject/:id',isAuth,asyncErrorHandler(taskAPI.editProj))
-router.delete('/deleteProject/:id',asyncErrorHandler(taskAPI.deleteProj))
+router.delete('/deleteProject/:id',isAuth,asyncErrorHandler(taskAPI.deleteProj))
 router.patch('/editPin/:id',asyncErrorHandler(taskAPI.editPin))
 
 router.get('/getKanBan/:id/Event',asyncErrorHandler(taskAPI.getKanBan))
