@@ -79,6 +79,31 @@ let taskService = {
             return next(appError("404","IdNotFound",next,res));
         }
     },
+    getKanBanInfo : async (req,res,next) =>{
+        let {id} = req.params;
+        let baseConfig = {path:'alltask',select:'status'}
+        let config_1 = {...baseConfig,}
+        let data = await Kanban.find({projectId:id}).populate(config_1).select("allTask kanbanName")
+        let counter = {
+            idle:0,
+            ongoing:0,
+            done:0,
+            total: 0
+        }
+        data?.map(x=>{
+            if(x.alltask.length !==0){
+                x.alltask.map(y=>{
+                    counter[y.status]+= 1
+                    counter['total'] +=1
+                })
+            }
+        })
+        if(data !== null){
+            responseHandler(res,[counter],200);
+        }else{
+            return next(appError("404","IdNotFound",next,res));
+        }
+    },
     addKanBan : async (req,res,next) =>{
         let addKanban = req.body;
         let creator = req.user._id;
