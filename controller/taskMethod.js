@@ -72,7 +72,7 @@ let taskService = {
             Object.keys(req.query).map(x=> req.query[x] = new RegExp(req.query[x]))
         }
         let searchParam = req.query ? {match : req.query}: {};
-        let baseConfig = {path:'alltask',select:'taskName type status taskCreator'}
+        let baseConfig = {path:'alltask',select:'taskName type status taskCreator createAt'}
         let config_1 = {...baseConfig,...searchParam}
         let data = await Kanban.find({projectId:id}).populate(config_1).populate({
             path: 'creator',
@@ -159,8 +159,8 @@ let taskService = {
     editTask : async (req,res,next) =>{
         let {taskId,taskName,status,type} = req.body;
         let editTask ={
-            status : status,
-            type: type || 0,
+            status,
+            type,
             taskName,
         }
         let data = await Task.findByIdAndUpdate({_id:taskId},{...cleanObject(editTask)},{ runValidators: true,new: true })
