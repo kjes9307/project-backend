@@ -205,8 +205,8 @@ let taskService = {
         }
     },
     editList: async (req,res,next) =>{
-        let {_id} = req.body;
-        let editList = req.body
+        let {_id,name,done} = req.body;
+        let editList = {_id,name,done}
         let data = await TodoList.findByIdAndUpdate({_id},{...editList},{ runValidators: true,new: true })
 
         if(data !== null){
