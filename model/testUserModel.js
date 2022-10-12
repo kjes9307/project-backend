@@ -19,8 +19,11 @@ const projSchema = new mongoose.Schema({
     },
     pin:{
       type:Boolean
-    }
-    
+    },
+    member:[{
+      type: mongoose.Schema.ObjectId,
+      select:false
+    }]
   },{
     versionKey: false,
 });

@@ -12,7 +12,6 @@ const {tokenGenerator,appError,responseHandler} = require("../util/tool")
 const userService = {
     register : async(req,res,next) =>{
         let { email, password,confirmPassword,name } = req.body;
-        console.log(req.body)
         // 內容不可為空
         if(!email||!password||!confirmPassword||!name){
           return next(appError(400,"欄位未填寫正確！",next,res));
