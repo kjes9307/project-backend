@@ -40,5 +40,10 @@ router.post('/addPhoto',isAuth,asyncErrorHandler(taskAPI.addPhoto))
 router.get('/getPhoto/:id',isAuth,asyncErrorHandler(taskAPI.getTaskPhoto))
 router.delete('/delPhoto',isAuth,asyncErrorHandler(taskAPI.delPhoto))
 
+router.post('/addInvite',isAuth,asyncErrorHandler(taskAPI.addInvite))
+router.get('/getSendingInvite',isAuth,asyncErrorHandler(taskAPI.getSendingInvite))
+router.get('/getReceivedInvites',isAuth,asyncErrorHandler(taskAPI.getReceivedInvites))
+router.get('/getProject',isAuth,asyncErrorHandler(taskAPI.getProject))
+router.post('/editInvite',isAuth,asyncErrorHandler(taskAPI.eddInvite))
 
 module.exports = router;

@@ -6,6 +6,7 @@ const TodoList = require('../model/todoModel.js')
 const TaskComment = require('../model/taskCommentModel.js')
 const Taskdetail = require('../model/taskDetailModel.js')
 const ImageStore = require("../model/imageModel.js")
+const Invite = require("../model/inviteModel.js")
 const {appError,responseHandler,cleanObject} = require("../util/tool")
 
 let taskService = {
@@ -361,6 +362,68 @@ let taskService = {
             responseHandler(res,data,200);
         }else{
             return next(appError("404","error occurs when get team member",next,res));
+        }
+    },
+    addInvite: async (req,res,next) =>{
+        let {projectId,userId,state} = req.body
+        let sender = req.user._id
+        if(!projectId) return next(appError("404","missing projectid",next,res));
+        if(!userId) return next(appError("404","missing userId",next,res));
+        let data = await Invite.create({projectId,receiver:userId,status:state,sender})
+        if(data !== null){
+            responseHandler(res,data,200);
+        }else{
+            return next(appError("404","error occurs when user create invitation",next,res));
+        }
+    },
+    getSendingInvite: async (req,res,next) =>{
+        let id = req.user._id
+        let data = await Invite.find({sender:id}).populate({  
+            path: 'receiver',
+            select: '_id name photo'
+        }).populate({
+            path: 'projectId',
+            select: 'name'
+        })
+        if(data !== null){
+            responseHandler(res,data,200);
+        }else{
+            return next(appError("404","error occurs when user get invitation",next,res));
+        }
+    },
+    eddInvite: async (req,res,next) =>{
+        let {inviteId,state} = req.body
+        if(!inviteId) return next(appError("404","missing inviteId",next,res));
+        if(!state) return next(appError("404","missing state",next,res));
+        let data = await Invite.findByIdAndUpdate(inviteId,{status: state},{ runValidators: true,new: true })
+        if(data !== null){
+            responseHandler(res,data,200);
+        }else{
+            return next(appError("404","error occurs when user create invitation",next,res));
+        }
+    },
+    getReceivedInvites: async (req,res,next) =>{
+        let id = req.user._id
+        let data = await Invite.find({receiver:id}).populate({  
+            path: 'sender',
+            select: '_id name photo'
+        }).populate({
+            path: 'projectId',
+            select: 'name'
+        })
+        if(data !== null){
+            responseHandler(res,data,200);
+        }else{
+            return next(appError("404","error occurs when user get invitation",next,res));
+        }
+    },
+    getProject: async (req,res,next) =>{
+        let id = req.user._id
+        let data = await Proj.find({personId:id})
+        if(data !== null){
+            responseHandler(res,data,200);
+        }else{
+            return next(appError("404","error occurs when user get invitation",next,res));
         }
     }
 }
