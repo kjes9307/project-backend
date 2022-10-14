@@ -154,7 +154,13 @@ let taskService = {
     },
     deleteTask : async (req,res,next) =>{
         let {id} = req.params;
+        let {kanbanId} = req.body;
         let data = await Task.findByIdAndDelete(id)
+
+        let rest = await Kanban.findOneAndUpdate(
+            { _id:kanbanId},
+            { $pull: { alltask: id } }
+            ,{ runValidators: true,new: true })
         responseHandler(res,data,200);
     },
     editTask : async (req,res,next) =>{
