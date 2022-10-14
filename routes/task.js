@@ -46,4 +46,5 @@ router.get('/getReceivedInvites',isAuth,asyncErrorHandler(taskAPI.getReceivedInv
 router.get('/getProject',isAuth,asyncErrorHandler(taskAPI.getProject))
 router.post('/editInvite',isAuth,asyncErrorHandler(taskAPI.eddInvite))
 
+router.post('/reorder',isAuth,asyncErrorHandler(taskAPI.taskReorder))
 module.exports = router;

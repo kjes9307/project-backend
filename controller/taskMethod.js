@@ -436,6 +436,20 @@ let taskService = {
         }else{
             return next(appError("404","error occurs when user get invitation",next,res));
         }
+    },
+    taskReorder: async (req,res,next) =>{
+        let {fromKanbanId,toKanbanId,content,position} = req.body
+        let result = await Kanban.findOneAndUpdate(
+            { _id : fromKanbanId},
+            { $pull: { alltask: content } },
+            { runValidators: true,new: true }
+        )
+        let data = await Kanban.findOneAndUpdate(
+            { _id : toKanbanId},
+            { $push: { arr:{$each: [content], $position: position}  } },
+            { runValidators: true,new: true }
+        )
+        responseHandler(res,data,200);
     }
 }
 
