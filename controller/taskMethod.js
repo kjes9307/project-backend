@@ -223,9 +223,14 @@ let taskService = {
         }
     },
     delList: async (req,res,next) =>{
-        let {_id} = req.body;
+        let {_id,taskId} = req.body;
         let data = await TodoList.findByIdAndDelete({_id})
 
+        await Task.findOneAndUpdate(
+            { _id:taskId},
+            { $pull: { taskTodoList: _id } },
+            { runValidators: true,new: true }
+        )
         if(data !== null){
             responseHandler(res,data,200);
         }else{
